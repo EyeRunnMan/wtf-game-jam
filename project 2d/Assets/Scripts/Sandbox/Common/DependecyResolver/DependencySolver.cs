@@ -36,6 +36,7 @@ namespace WTF.Common
                 InstanceContainer<T>.Instance = obj;
                 ToDispose.Add(obj);
                 RegisteredInstances.Add(typeof(T).FullName);
+                Debug.Log($"Registered {typeof(T).FullName} instance.");
             }
 
             return obj;

@@ -56,5 +56,10 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Project 2d.sln"
+    "dotnet.defaultSolution": "Project 2d.sln",
+    "cSpell.words": [
+        "Datas",
+        "Dont",
+        "Scriptable"
+    ]
 }
