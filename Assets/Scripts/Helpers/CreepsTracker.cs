@@ -19,9 +19,9 @@ namespace WTF.Helpers
             return Instance;
         }
 
-        public bool CanSpawnMoreCreeps()
+        public bool CanSpawnMoreCreeps(int count)
         {
-            return m_noOfCreeps < LevelCreepsConfig.TotalCreepsCount;
+            return (m_noOfCreeps + count) <= LevelCreepsConfig.TotalCreepsCount;
         }
 
         private CreepsTracker()

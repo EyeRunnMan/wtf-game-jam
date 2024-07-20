@@ -24,7 +24,7 @@ namespace WTF.GameControls
         {
             m_timer += Time.deltaTime;
 
-            if (m_timer >= m_nextSpawnTime && CreepsTracker.GetInstance().CanSpawnMoreCreeps()) {
+            if (m_timer >= m_nextSpawnTime && CreepsTracker.GetInstance().CanSpawnMoreCreeps(1)) {
                 Creep randCreepPrefab = m_creepsToSpawn[Random.Range(0, m_creepsToSpawn.Length)];
                 Creep spawnedCreep = Instantiate(randCreepPrefab, transform.position, Quaternion.identity);
                 spawnedCreep.transform.parent = m_creepParentObject;
