@@ -34,6 +34,10 @@ namespace WTF.PlayerControls
         private void Update() {
             if (m_isSelected)
             {
+                if(m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
+                {
+                    m_agent.ResetPath();
+                }
                 return;
             }
 
