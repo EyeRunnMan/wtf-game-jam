@@ -13,16 +13,16 @@ namespace WTF.Common.InputSystem.Components
         private void Start()
         {
             WTF.Common.DependencySolver.TryGetInstance(out inputSystem);
-            inputSystem.OnInteractionStartEvent += OnInterActionStarted;
-            inputSystem.OnDuringInteractionEvent += OnDuringInteraction;
-            inputSystem.OnInteractionEndedEvent += OnInteractionEnded;
+            inputSystem.OnSwipeStartEvent += OnInterActionStarted;
+            inputSystem.OnDuringSwipEvent += OnDuringInteraction;
+            inputSystem.OnSwipeEventEnded += OnInteractionEnded;
 
         }
         private void OnDestroy()
         {
-            inputSystem.OnInteractionStartEvent -= OnInterActionStarted;
-            inputSystem.OnDuringInteractionEvent -= OnDuringInteraction;
-            inputSystem.OnInteractionEndedEvent -= OnInteractionEnded;
+            inputSystem.OnSwipeStartEvent -= OnInterActionStarted;
+            inputSystem.OnDuringSwipEvent -= OnDuringInteraction;
+            inputSystem.OnSwipeEventEnded -= OnInteractionEnded;
         }
         List<Vector3> positions = new List<Vector3>();
         private void OnInteractionEnded()

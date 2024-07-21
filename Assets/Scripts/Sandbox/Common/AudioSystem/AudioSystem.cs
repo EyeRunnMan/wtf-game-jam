@@ -8,6 +8,7 @@ using WTF.Common.IdentitySystem;
 
 namespace WTF.common.AudioSystem
 {
+    [RequireComponent(typeof(AudioSource))]
     public class AudioSystem : MonoBehaviour, IAudioSystem
     {
         private IDebugSystem debugSystem;
@@ -16,13 +17,16 @@ namespace WTF.common.AudioSystem
         public IIdentitySystem identitySystem;
 
         public IIdentityMapper<AudioMeta> mapper => _mapper;
-
+        [SerializeField]
+        private AudioSource audioSource;
         private void Awake()
         {
             DependencySolver.RegisterInstance(this as IAudioSystem);
             DontDestroyOnLoad(gameObject);
             gameObject.name = nameof(AudioSystem);
             _mapper = new AudioMapper(AudioDataContainer.AudioDataList);
+            gameObject.name = nameof(AudioSystem);
+
         }
         private void Start()
         {
@@ -39,13 +43,29 @@ namespace WTF.common.AudioSystem
         {
             if (mapper.TryGetIdentityData(identity, out var audioMeta))
             {
-                audioSource.clip = audioMeta.audioData.audioClip;
-                audioSource.Play();
+                switch (audioMeta.audioData.audioType)
+                {
+                    case AudioType.SFX:
+                        audioSource.PlayOneShot(audioMeta.audioData.audioClip);
+                        break;
+                    case AudioType.Music:
+                        audioSource.clip = audioMeta.audioData.audioClip;
+                        audioSource.loop = true;
+                        audioSource.Play();
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
                 debugSystem.LogError("AudioMeta not found for identity: " + identity);
             }
+        }
+
+        public void PlayAudio(Identity identity)
+        {
+            PlayAudioOnSource(identity, audioSource);
         }
     }
 

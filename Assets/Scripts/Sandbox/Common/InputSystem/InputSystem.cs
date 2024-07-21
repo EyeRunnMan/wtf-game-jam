@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,12 +7,15 @@ namespace WTF.Common.InputSystem
 {
     public class InputSystem : MonoBehaviour, IInputSystem
     {
+        [SerializeField]
+        private int doubleTapDelayInMilliseconds = 500;
         bool isInterrupted = false;
         bool canProcessMoveInput = false;
-
-        public event Action OnInteractionStartEvent;
-        public event Action<Vector2> OnDuringInteractionEvent;
-        public event Action OnInteractionEndedEvent;
+        bool isCheckingForDoubleTap = false;
+        public event Action OnSwipeStartEvent;
+        public event Action<Vector2> OnDuringSwipEvent;
+        public event Action OnSwipeEventEnded;
+        public event Action OnDoubleTapEvent;
 
         private void Awake()
         {
@@ -57,29 +61,86 @@ namespace WTF.Common.InputSystem
                     OnDuringInteraction(Input.mousePosition);
                 }
             }
+            if (isCheckingForDoubleTap == false)
+            {
+                if (Input.touchCount > 0)
+                {
+                    if (Input.touches[0].phase == TouchPhase.Began)
+                    {
+                        StartCoroutine(DoubleTapCheck());
+                    }
+                }
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        StartCoroutine(DoubleTapCheck());
+                    }
+                }
+            }
+        }
+
+        private IEnumerator DoubleTapCheck()
+        {
+            isCheckingForDoubleTap = true;
+            var startTime = Time.time;
+            var endTime = Time.time + doubleTapDelayInMilliseconds / 1000;
+            var didUserDoubleTapped = false;
+            yield return null;
+            while (Time.time < endTime)
+            {
+                if (Input.touchCount > 0)
+                {
+                    if (Input.touches[0].phase == TouchPhase.Began)
+                    {
+                        didUserDoubleTapped = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        didUserDoubleTapped = true;
+                        break;
+                    }
+                }
+
+                yield return null;
+            }
+            if (didUserDoubleTapped)
+            {
+                OnDoubleTapEvent?.Invoke();
+            }
+            isCheckingForDoubleTap = false;
         }
 
         public void OnInteractionEnded()
         {
             canProcessMoveInput = false;
-            OnInteractionEndedEvent?.Invoke();
+            OnSwipeEventEnded?.Invoke();
         }
 
         public void OnDuringInteraction(Vector2 screenPosition)
         {
-            OnDuringInteractionEvent?.Invoke(screenPosition);
+            OnDuringSwipEvent?.Invoke(screenPosition);
         }
 
         public void OnInteractionStart()
         {
             isInterrupted = false;
             canProcessMoveInput = true;
-            OnInteractionStartEvent?.Invoke();
+            OnSwipeStartEvent?.Invoke();
         }
 
         public void InterruptInteraction()
         {
             isInterrupted = true;
+        }
+
+        public void InterruptSwipe()
+        {
+            throw new NotImplementedException();
         }
     }
 }
