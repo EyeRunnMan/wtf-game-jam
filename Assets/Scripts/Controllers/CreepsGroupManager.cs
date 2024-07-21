@@ -58,6 +58,10 @@ namespace WTF.PlayerControls
 
         private async Task StartMerge()
         {
+            if (m_creepsSelected.Count == 0)
+            {
+                return;
+            }
             if (m_creepsSelected.Count == 1)
             {
                 m_creepsSelected[0].DeselectCreep();
