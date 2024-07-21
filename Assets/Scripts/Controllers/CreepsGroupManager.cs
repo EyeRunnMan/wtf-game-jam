@@ -5,6 +5,7 @@ using UnityEngine;
 using WTF.Common.InputSystem;
 using WTF.Configs;
 using WTF.Events;
+using WTF.Helpers;
 using WTF.Players;
 
 namespace WTF.PlayerControls
@@ -42,9 +43,15 @@ namespace WTF.PlayerControls
                 m_selectionType = selectedCreep.creepType;
             }
 
-            if (m_selectionType != selectedCreep.creepType)
+            bool outOfMoves = !MovesTracker.GetInstance().CanMakeMove(m_creepsSelected.Count + 1);
+            if (m_selectionType != selectedCreep.creepType ||
+                outOfMoves)
             {
                 selectedCreep.DeselectCreep(true);
+                if (outOfMoves)
+                {
+                    EventDispatcher<bool>.Dispatch(CustomEvents.OutOfMoves, true);
+                }
                 return;
             }
 
@@ -80,6 +87,7 @@ namespace WTF.PlayerControls
             await Task.WhenAll(moveTasks.ToArray());
 
             lastCreep.DoMerge(m_creepsSelected.Count);
+            EventDispatcher<int>.Dispatch(CustomEvents.CreepsGrouped, m_creepsSelected.Count);
             m_creepsSelected.Clear();
         }
     }
