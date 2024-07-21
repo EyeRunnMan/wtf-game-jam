@@ -1,5 +1,6 @@
 using UnityEngine;
 using NavMeshPlus.Components;
+using WTF.Common;
 using WTF.Configs;
 using WTF.Events;
 using WTF.Helpers;
@@ -10,12 +11,16 @@ namespace WTF.GameControls
 {
     public class LevelStartCreepSpawner : MonoBehaviour
         {
-            [SerializeField] private Creep m_playerCreeps;
-            [SerializeField] private Creep m_enemyCreeps;
             [SerializeField] private Transform m_creepParentObject;
             [SerializeField] private NavMeshSurface m_meshSurface;
 
             private bool m_creepsSpawned = false;
+            private ISpawnerFactory m_factory;
+
+            private void Awake()
+            {
+                DependencySolver.TryGetInstance(out m_factory);
+            }
 
             public Transform spawnParent
             {
@@ -35,12 +40,12 @@ namespace WTF.GameControls
                     return;
                 }
 
-                CreateAndPlaceCreeps(m_playerCreeps, LevelCreepsConfig.LevelStartPlayerCreepsCount);
-                CreateAndPlaceCreeps(m_enemyCreeps, LevelCreepsConfig.LevelStartEnemyCreepsCount);
+                CreateAndPlaceCreeps(CreepTypes.Player, LevelCreepsConfig.LevelStartPlayerCreepsCount);
+                CreateAndPlaceCreeps(CreepTypes.Enemy, LevelCreepsConfig.LevelStartEnemyCreepsCount);
                 m_creepsSpawned = true;
             }
 
-            private void CreateAndPlaceCreeps(Creep creep, int count)
+            private void CreateAndPlaceCreeps(CreepTypes type, int count)
             {
                 if (!CreepsTracker.GetInstance().CanSpawnMoreCreeps(count))
                 {
@@ -53,13 +58,15 @@ namespace WTF.GameControls
                 {
                     float x = Random.Range(boundsMin.x, boundsMax.x);
                     float y = Random.Range(boundsMin.y, boundsMax.y);
-                    Creep spawnedCreep = Instantiate(creep, new Vector3(x, y, 0), Quaternion.identity);
+                    Creep spawnedCreep = m_factory.CreateCreep(type);
+                    spawnedCreep.transform.position = new Vector3(x, y, 0);
+                    spawnedCreep.transform.rotation = Quaternion.identity;
                     spawnedCreep.transform.parent = m_creepParentObject;
                 }
 
                 SCreepSpawnInfo eventData = new SCreepSpawnInfo() {
                     creepCount = count,
-                    creepType = creep.creepType
+                    creepType = type
                 };
                 EventDispatcher<SCreepSpawnInfo>.Dispatch(CustomEvents.CreepSpawned, eventData);
             }

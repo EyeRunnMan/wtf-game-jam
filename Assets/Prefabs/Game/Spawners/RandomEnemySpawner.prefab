@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3654f38edc9a40a58d607b275afb793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_creepsToSpawn:
-  - {fileID: 3862574373985761893, guid: 7e29d7d2e12214e85bf9cd7747317a14, type: 3}
+  m_creepTypesToSpawn: 01000000
   m_waitTime: {x: 15, y: 60}
   m_creepParentObject: {fileID: 0}
 --- !u!61 &5289827830804714333

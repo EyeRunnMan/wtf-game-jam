@@ -8,7 +8,6 @@ namespace WTF.PlayerControls
 {
     public class CreepMovementController : MonoBehaviour
     {
-        private const int V = 1;
         [SerializeField] private float m_moveRadius;
         [SerializeField] private Vector2 m_waitTime;
 
@@ -16,14 +15,21 @@ namespace WTF.PlayerControls
         private float m_nextSpawnTime;
         private NavMeshAgent m_agent;
         private bool m_isSelected;
+        private bool m_isExploding;
 
         public bool isSelected
         {
             set { m_isSelected = value; }
         }
 
+        public bool isExploding
+        {
+            set { m_isExploding = value; }
+        }
+
         private void OnEnable()
         {
+            m_isExploding = false;
             m_isSelected = false;
             m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
             m_timer = m_nextSpawnTime;
@@ -34,7 +40,7 @@ namespace WTF.PlayerControls
 
         private void Update()
         {
-            if (m_isSelected)
+            if (m_isSelected || m_isExploding)
             {
                 if (m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
                 {
@@ -43,15 +49,14 @@ namespace WTF.PlayerControls
                 return;
             }
 
-            // m_timer += Time.deltaTime;
+            m_timer += Time.deltaTime;
 
-            // if (m_timer >= m_nextSpawnTime)
-            // {
-            //     Vector3 newPos = GetRandomNavSphere();
-            //     m_agent.SetDestination(newPos);
-            //     m_timer = 0;
-            //     m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
-            // }
+            if (m_timer >= m_nextSpawnTime)
+            {
+                RandomNavigate();
+                m_timer = 0;
+                m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
+            }
         }
 
         private Vector3 GetRandomNavSphere()
@@ -65,17 +70,18 @@ namespace WTF.PlayerControls
 
             return navHit.position;
         }
-        public bool IsOnNavMesh()
-        {
 
-            return m_agent.isOnNavMesh;
+        public void RandomNavigate()
+        {
+            Vector3 newPos = GetRandomNavSphere();
+            m_agent.SetDestination(newPos);
         }
+
         public async Task NavigateToDestination(Vector3 position)
         {
             m_agent.SetDestination(position);
-            await Task.Delay(500);
 
-            while (m_agent.remainingDistance > V)
+            while(m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
             {
                 await Task.Delay(500);
             }

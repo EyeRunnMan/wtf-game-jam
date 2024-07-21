@@ -9,11 +9,12 @@ namespace WTF.Common.InputSystem
     {
         private static InputSystem Instance;
 
-        [SerializeField] private int doubleTapDelayInMilliseconds = 500;
+        [SerializeField] private float doubleTapDelayInSeconds = 0.5f;
 
-        bool isInterrupted = false;
-        bool canProcessMoveInput = false;
-        bool isCheckingForDoubleTap = false;
+        private bool isInterrupted = false;
+        private bool canProcessMoveInput = false;
+        private float doubleTapTimer = 0f;
+        private bool isCheckingForDoubleTap = false;
 
         public event Action<Vector2> OnSwipeStartEvent;
         public event Action<Vector2> OnDuringSwipeEvent;
@@ -40,11 +41,25 @@ namespace WTF.Common.InputSystem
 
         private void Update()
         {
+            if (isCheckingForDoubleTap)
+            {
+                doubleTapTimer += Time.deltaTime;
+            }
+
             if (Input.touchCount > 0)
             {
                 if (Input.touches[0].phase == TouchPhase.Began || Input.GetMouseButtonDown(0))
                 {
-                    OnInteractionStart(Input.touches[0].position);
+                    if (isCheckingForDoubleTap && doubleTapTimer < doubleTapDelayInSeconds)
+                    {
+                        OnDoubleTap(Input.touches[0].position);
+                    }
+                    else
+                    {
+                        isCheckingForDoubleTap = true;
+                        doubleTapTimer = 0;
+                        OnInteractionStart(Input.touches[0].position);
+                    }
                 }
                 if (Input.touches[0].phase == TouchPhase.Ended || Input.GetMouseButtonUp(0) || isInterrupted)
                 {
@@ -59,7 +74,16 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    OnInteractionStart(Input.mousePosition);
+                    if (isCheckingForDoubleTap && doubleTapTimer < doubleTapDelayInSeconds)
+                    {
+                        OnDoubleTap(Input.mousePosition);
+                    }
+                    else
+                    {
+                        isCheckingForDoubleTap = true;
+                        doubleTapTimer = 0;
+                        OnInteractionStart(Input.mousePosition);
+                    }
                 }
                 if (Input.GetMouseButtonUp(0) || isInterrupted)
                 {
@@ -70,66 +94,6 @@ namespace WTF.Common.InputSystem
                     OnDuringInteraction(Input.mousePosition);
                 }
             }
-            if (isCheckingForDoubleTap == false)
-            {
-                if (Input.touchCount > 0)
-                {
-                    if (Input.touches[0].phase == TouchPhase.Began)
-                    {
-                        StartCoroutine(DoubleTapCheck());
-                    }
-                }
-                else
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        StartCoroutine(DoubleTapCheck());
-                    }
-                }
-            }
-        }
-
-        private IEnumerator DoubleTapCheck()
-        {
-            isCheckingForDoubleTap = true;
-            var startTime = Time.time;
-            var endTime = Time.time + doubleTapDelayInMilliseconds / 1000;
-            var didUserDoubleTapped = false;
-            yield return null;
-            while (Time.time < endTime)
-            {
-                if (Input.touchCount > 0)
-                {
-                    if (Input.touches[0].phase == TouchPhase.Began)
-                    {
-                        didUserDoubleTapped = true;
-                        break;
-                    }
-                }
-                else
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        didUserDoubleTapped = true;
-
-                        break;
-                    }
-                }
-
-                yield return null;
-            }
-            if (didUserDoubleTapped)
-            {
-                if (Input.touchCount > 0)
-                {
-                    OnDoubleTapEvent?.Invoke(Input.touches[0].position);
-                }
-                else
-                {
-                    OnDoubleTapEvent?.Invoke(Input.mousePosition);
-                }
-            }
-            isCheckingForDoubleTap = false;
         }
 
         public void OnInteractionEnded()
@@ -148,6 +112,13 @@ namespace WTF.Common.InputSystem
             isInterrupted = false;
             canProcessMoveInput = true;
             OnSwipeStartEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
+        }
+
+        public void OnDoubleTap(Vector2 screenPosition)
+        {
+            isCheckingForDoubleTap = false;
+            doubleTapTimer = 0;
+            OnDoubleTapEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
         }
 
         public void InterruptInteraction()

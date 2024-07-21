@@ -61,24 +61,11 @@ namespace WTF.PlayerControls
 
         private void OnSwipeEnd()
         {
-            StartMerge();
+            StartMerge().Wait();
         }
 
         private async Task StartMerge()
         {
-            var filteredList = new List<Creep>();
-            foreach (var creep in m_creepsSelected)
-            {
-                if (creep.IsOnNavMesh())
-                {
-                    filteredList.Add(creep);
-                }
-                else
-                {
-                    creep.DeselectCreep();
-                }
-            }
-            m_creepsSelected = filteredList;
             if (m_creepsSelected.Count == 0)
             {
                 return;
@@ -101,10 +88,7 @@ namespace WTF.PlayerControls
             await Task.WhenAll(moveTasks.ToArray());
 
             lastCreep.DoMerge(m_creepsSelected.Count);
-            foreach (var item in m_creepsSelected)
-            {
-                item.DeselectCreep();
-            }
+
             SCreepsGroupInfo eventData = new SCreepsGroupInfo()
             {
                 creepCount = m_creepsSelected.Count,

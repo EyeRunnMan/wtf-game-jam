@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2095369794956917040}
   - component: {fileID: 1064881054906173900}
   - component: {fileID: 5903306715335398874}
+  - component: {fileID: 6633219340062819605}
   m_Layer: 0
   m_Name: Dependency Resolver
   m_TagString: Untagged
@@ -182,3 +183,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68227290958f994c9e7f66830eee2ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6633219340062819605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287004973967334285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d0e7e69850d414191845365e8e22ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_goodCreepPrefab: {fileID: 1073156494752816855, guid: 4ebe870aa75684e97a7b28e5bbbe2256, type: 3}
+  m_badCreepPrefab: {fileID: 3862574373985761893, guid: 7e29d7d2e12214e85bf9cd7747317a14, type: 3}

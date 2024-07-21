@@ -6,7 +6,6 @@ using WTF.Configs;
 using WTF.Common;
 using WTF.Common.InputSystem;
 using WTF.Events;
-using JetBrains.Annotations;
 
 namespace WTF.Players
 {
@@ -15,9 +14,9 @@ namespace WTF.Players
         [SerializeField] private CreepTypes m_type;
         [SerializeField] private SpriteRenderer m_spriteRenderer;
         [SerializeField] private CreepMovementController m_movementController;
-        [SerializeField] private SpriteRenderer m_charSpriteRenderer;
         [SerializeField] private float[] m_scalingRanges;
-        [SerializeField] private Sprite[] m_charSprites;
+        [SerializeField] private CreepSpriteHandler m_spriteHandler;
+        [SerializeField] private CreepExplosion m_explosionHandler;
         [SerializeField] private Transform m_mergedCreepsParent;
 
         private bool m_isSelected;
@@ -31,6 +30,7 @@ namespace WTF.Players
             m_inputSystem.OnSwipeStartEvent += OnSwipeStart;
             m_inputSystem.OnDuringSwipeEvent += OnDuringSwipe;
             m_inputSystem.OnSwipeEventEnded += OnSwipeEnd;
+            m_inputSystem.OnDoubleTapEvent += OnDoubleTap;
         }
 
         private void OnDisable()
@@ -43,6 +43,7 @@ namespace WTF.Players
             m_inputSystem.OnSwipeStartEvent -= OnSwipeStart;
             m_inputSystem.OnDuringSwipeEvent -= OnDuringSwipe;
             m_inputSystem.OnSwipeEventEnded -= OnSwipeEnd;
+            m_inputSystem.OnDoubleTapEvent -= OnDoubleTap;
         }
 
         private void OnSwipeStart(Vector2 startPos)
@@ -79,9 +80,23 @@ namespace WTF.Players
                 return;
             }
 
-            // // Do Something
-            // m_isSelected = false;
-            // m_movementController.isSelected = false;
+            // Do Something
+//             m_isSelected = false;
+//             m_movementController.isSelected = false;
+        }
+
+        private void OnDoubleTap(Vector2 tapPos)
+        {
+            if (!IsPointInObject(tapPos) || !m_isSelected || m_creepCount <= 1)
+            {
+                if (m_isSelected)
+                {
+                    DeselectCreep(true);
+                }
+                return;
+            }
+
+            InitiateExplosion(m_type);
         }
 
         private bool IsPointInObject(Vector2 position)
@@ -95,16 +110,7 @@ namespace WTF.Players
 
         private void UpdateSprite()
         {
-            if (m_creepCount < 1)
-            {
-                m_creepCount = 1;
-            }
-            else if (m_creepCount >= m_charSprites.Length)
-            {
-                m_creepCount = m_charSprites.Length;
-            }
-
-            m_charSpriteRenderer.sprite = m_charSprites[m_creepCount - 1];
+            m_spriteHandler.UpdateSprite(m_type, m_creepCount - 1);
             m_spriteRenderer.transform.localScale = new Vector3(m_scalingRanges[m_creepCount - 1], m_scalingRanges[m_creepCount - 1], 1);
         }
 
@@ -116,6 +122,58 @@ namespace WTF.Players
         public Transform mergedCreepsParent
         {
             get { return m_mergedCreepsParent; }
+        }
+
+        public CreepSpriteHandler spriteHandler
+        {
+            get { return m_spriteHandler; }
+        }
+
+        public CreepExplosion explosionHandler
+        {
+            get { return m_explosionHandler; }
+        }
+
+        public void InitiateExplosion(CreepTypes type)
+        {
+            if (m_type != type)
+            {
+                Creep newCreep = m_spriteHandler.UpdateCharacterAndSprite(type, m_creepCount - 1);
+                newCreep.explosionHandler.TriggerExplosion(m_creepCount, type);
+                return;
+            }
+
+            m_explosionHandler.TriggerExplosion(m_creepCount, type);
+        }
+
+        public void SelfExplode()
+        {
+            if (m_creepCount <= 1)
+            {
+                return;
+            }
+
+            while(m_mergedCreepsParent.childCount > 0)
+            {
+                Transform child = m_mergedCreepsParent.GetChild(0);
+                Creep childCreep = child.GetComponent<Creep>();
+                child.parent = transform.parent;
+                child.position = transform.position;
+                child.gameObject.SetActive(true);
+                childCreep.ExplodeMove();
+            }
+
+            m_creepCount = 1;
+            UpdateSprite();
+            ExplodeMove();
+        }
+
+        public void ExplodeMove()
+        {
+            m_movementController.isExploding = true;
+            // Play Explode anim
+            m_movementController.RandomNavigate();
+            m_movementController.isExploding = false;
         }
 
         public void DeselectCreep(bool skipAnimation = false)
@@ -132,10 +190,7 @@ namespace WTF.Players
             transform.parent = dest.mergedCreepsParent;
             gameObject.SetActive(false);
         }
-        public bool IsOnNavMesh()
-        {
-            return m_movementController.IsOnNavMesh();
-        }
+
         public void DoMerge(int creepCount)
         {
             m_creepCount = creepCount;
