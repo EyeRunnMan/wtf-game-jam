@@ -18,5 +18,5 @@ MonoBehaviour:
       name: 
       description: 
     audioData:
-      audioClip: {fileID: 8300000, guid: 9d15847138f817a4ab7e3099f349e371, type: 3}
+      audioClip: {fileID: 8300000, guid: 54cd7e0c815c1a14fbaf44ead2902865, type: 3}
       audioType: 0

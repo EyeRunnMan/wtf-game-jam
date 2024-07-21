@@ -19,11 +19,11 @@ namespace WTF.common.AudioSystem
             {
                 if (!_audioMetaDictionary.TryAdd(audioData.Identity, audioData.audioMeta))
                 {
-                    debugSystem.LogError(message: "Duplicate identity found in AudioDataSO: " + audioData.Identity);
+                    debugSystem?.LogError(message: "Duplicate identity found in AudioDataSO: " + audioData.Identity);
                 }
                 else
                 {
-                    debugSystem.Log(message: "Added identity to AudioMapper: " + audioData.Identity);
+                    debugSystem?.Log(message: "Added identity to AudioMapper: " + audioData.Identity);
                 }
             }
         }

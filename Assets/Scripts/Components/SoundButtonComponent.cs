@@ -21,6 +21,11 @@ public class SoundButtonComponent : MonoBehaviour
     {
         DependencySolver.TryGetInstance(out audioSystem);
         button.onClick.AddListener(OnButtonClick);
+        text.text = audioSystem.isActive ? "Sound : On" : "Sound : Off";
+    }
+    private void OnEnable()
+    {
+        text.text = audioSystem?.isActive ?? false ? "Sound : On" : "Sound : Off";
     }
     private void OnDestroy()
     {

@@ -25,15 +25,16 @@ namespace WTF.common.AudioSystem
         private void Awake()
         {
             DependencySolver.RegisterInstance(this as IAudioSystem);
-            DontDestroyOnLoad(gameObject);
-            gameObject.name = nameof(AudioSystem);
+            DontDestroyOnLoad(gameObject); ;
             _mapper = new AudioMapper(AudioDataContainer.AudioDataList);
 
         }
         private void Start()
         {
+
             DependencySolver.TryGetInstance(out debugSystem);
             DependencySolver.TryGetInstance(out identitySystem);
+
             identitySystem.AddIdentityMetas(AudioDataContainer.AudioDataList.ConvertAll(x => x.audioMeta.identityMeta));
             _isActive = true;
             ToggleSound(_isActive);
@@ -47,6 +48,10 @@ namespace WTF.common.AudioSystem
         {
             if (mapper.TryGetIdentityData(identity, out var audioMeta))
             {
+                if (audioSource.clip != null && audioSource.clip == audioMeta.audioData.audioClip)
+                {
+                    return;
+                }
                 switch (audioMeta.audioData.audioType)
                 {
                     case AudioType.SFX:
@@ -78,6 +83,10 @@ namespace WTF.common.AudioSystem
             audioSource.mute = !isOn;
             if (!isOn)
                 audioSource.Stop();
+            else
+            {
+                audioSource.Play();
+            }
         }
     }
 }
