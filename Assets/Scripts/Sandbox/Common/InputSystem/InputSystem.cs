@@ -23,7 +23,6 @@ namespace WTF.Common.InputSystem
             DontDestroyOnLoad(gameObject);
             isInterrupted = false;
             canProcessMoveInput = false;
-            gameObject.name = "[InputSystem]";
         }
         private void OnDestroy()
         {

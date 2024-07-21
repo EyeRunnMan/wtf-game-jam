@@ -28,7 +28,6 @@ namespace WTF.common.AudioSystem
             DontDestroyOnLoad(gameObject);
             gameObject.name = nameof(AudioSystem);
             _mapper = new AudioMapper(AudioDataContainer.AudioDataList);
-            gameObject.name = nameof(AudioSystem);
 
         }
         private void Start()
