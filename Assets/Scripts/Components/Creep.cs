@@ -15,6 +15,7 @@ namespace WTF.Players
         [SerializeField] private SpriteRenderer m_spriteRenderer;
         [SerializeField] private CreepMovementController m_movementController;
         [SerializeField] private SpriteRenderer m_charSpriteRenderer;
+        [SerializeField] private float[] m_scalingRanges;
         [SerializeField] private Sprite[] m_charSprites;
         [SerializeField] private Transform m_mergedCreepsParent;
 
@@ -103,6 +104,7 @@ namespace WTF.Players
             }
 
             m_charSpriteRenderer.sprite = m_charSprites[m_creepCount - 1];
+            m_spriteRenderer.transform.localScale = new Vector3(m_scalingRanges[m_creepCount - 1], m_scalingRanges[m_creepCount - 1], 1);
         }
 
         public CreepTypes creepType
