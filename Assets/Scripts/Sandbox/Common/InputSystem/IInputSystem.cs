@@ -25,6 +25,6 @@ namespace WTF.Common.InputSystem
         /// </summary>
         void InterruptSwipe();
 
-        event Action OnDoubleTapEvent;
+        event Action<Vector2> OnDoubleTapEvent;
     }
 }

@@ -8,14 +8,14 @@ namespace WTF.Common.InputSystem
     public class InputSystem : MonoBehaviour, IInputSystem
     {
         [SerializeField]
-        private int doubleTapDelayInMilliseconds = 500;
+        private int doubleTapDelayInMilliseconds = 1000;
         bool isInterrupted = false;
         bool canProcessMoveInput = false;
         bool isCheckingForDoubleTap = false;
         public event Action OnSwipeStartEvent;
         public event Action<Vector2> OnDuringSwipEvent;
         public event Action OnSwipeEventEnded;
-        public event Action OnDoubleTapEvent;
+        public event Action<Vector2> OnDoubleTapEvent;
 
         private void Awake()
         {
@@ -102,6 +102,7 @@ namespace WTF.Common.InputSystem
                     if (Input.GetMouseButtonDown(0))
                     {
                         didUserDoubleTapped = true;
+
                         break;
                     }
                 }
@@ -110,7 +111,14 @@ namespace WTF.Common.InputSystem
             }
             if (didUserDoubleTapped)
             {
-                OnDoubleTapEvent?.Invoke();
+                if (Input.touchCount > 0)
+                {
+                    OnDoubleTapEvent?.Invoke(Input.touches[0].position);
+                }
+                else
+                {
+                    OnDoubleTapEvent?.Invoke(Input.mousePosition);
+                }
             }
             isCheckingForDoubleTap = false;
         }

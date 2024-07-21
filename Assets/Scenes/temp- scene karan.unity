@@ -2223,10 +2223,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6479217132786020098, guid: d5b5bb376b6ed7c43a582abc44d8c27a, type: 3}
-      propertyPath: doubleTapDelayInMilliseconds
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 8287004973967334285, guid: d5b5bb376b6ed7c43a582abc44d8c27a, type: 3}
       propertyPath: m_Name
       value: Dependency Resolver
