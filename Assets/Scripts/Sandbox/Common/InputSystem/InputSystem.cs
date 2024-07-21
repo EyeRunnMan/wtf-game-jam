@@ -7,27 +7,37 @@ namespace WTF.Common.InputSystem
 {
     public class InputSystem : MonoBehaviour, IInputSystem
     {
-        [SerializeField]
-        private int doubleTapDelayInMilliseconds = 1000;
+        private static InputSystem Instance;
+
+        [SerializeField] private int doubleTapDelayInMilliseconds = 500;
+
         bool isInterrupted = false;
         bool canProcessMoveInput = false;
         bool isCheckingForDoubleTap = false;
+
         public event Action<Vector2> OnSwipeStartEvent;
         public event Action<Vector2> OnDuringSwipeEvent;
         public event Action OnSwipeEventEnded;
         public event Action<Vector2> OnDoubleTapEvent;
 
-        private void Awake()
+        public static InputSystem GetInstance()
         {
-            DependencySolver.RegisterInstance(this as IInputSystem);
-            DontDestroyOnLoad(gameObject);
+            if (InputSystem.Instance == null)
+            {
+                GameObject go = new GameObject("InputSystem");
+                DontDestroyOnLoad(go);
+                InputSystem.Instance = go.AddComponent<InputSystem>();
+            }
+
+            return InputSystem.Instance;
+        }
+
+        private InputSystem()
+        {
             isInterrupted = false;
             canProcessMoveInput = false;
         }
-        private void OnDestroy()
-        {
-            DependencySolver.RemoveInstance(this as IInputSystem);
-        }
+
         private void Update()
         {
             if (Input.touchCount > 0)

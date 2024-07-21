@@ -4,6 +4,8 @@ namespace WTF.Events
     {
         GameStart,
         GameEnd,
-        CreepSpawned
+        CreepSpawned,
+        CreepSelected,
+        OutOfMoves
     }
 }

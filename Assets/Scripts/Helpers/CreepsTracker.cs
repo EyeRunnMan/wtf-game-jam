@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+using UnityEngine;
 using WTF.Configs;
 using WTF.Events;
-using UnityEngine;
+using WTF.Models;
 
 namespace WTF.Helpers
 {
@@ -8,6 +10,7 @@ namespace WTF.Helpers
     {
         private static CreepsTracker Instance;
         private int m_noOfCreeps = 0;
+        private Dictionary<CreepTypes, int> m_creepTypeMap = new Dictionary<CreepTypes, int>();
 
         public static CreepsTracker GetInstance()
         {
@@ -27,12 +30,19 @@ namespace WTF.Helpers
         private CreepsTracker()
         {
             m_noOfCreeps = 0;
-            EventDispatcher<int>.Register(CustomEvents.CreepSpawned, OnCreepSpawned);
+            EventDispatcher<SCreepSpawnInfo>.Register(CustomEvents.CreepSpawned, OnCreepSpawned);
         }
 
-        private void OnCreepSpawned(int creepsSpawned)
+        private void OnCreepSpawned(SCreepSpawnInfo creepsInfo)
         {
-            m_noOfCreeps += creepsSpawned;
+            m_noOfCreeps += creepsInfo.creepCount;
+
+            if (!m_creepTypeMap.ContainsKey(creepsInfo.creepType))
+            {
+                m_creepTypeMap[creepsInfo.creepType] = 0;
+            }
+
+            m_creepTypeMap[creepsInfo.creepType] += creepsInfo.creepCount;
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using WTF.Events;
 using WTF.Helpers;
+using WTF.Models;
 using WTF.Players;
 
 namespace WTF.GameControls
@@ -14,6 +15,11 @@ namespace WTF.GameControls
         private bool m_canSpawn;
         private float m_timer;
         private float m_nextSpawnTime;
+
+        public Transform spawnParent
+        {
+            set { m_creepParentObject = value; }
+        }
 
         private void OnEnable()
         {
@@ -40,7 +46,11 @@ namespace WTF.GameControls
                 spawnedCreep.transform.parent = m_creepParentObject;
                 m_timer = 0;
                 m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
-                EventDispatcher<int>.Dispatch(CustomEvents.CreepSpawned, 1);
+                SCreepSpawnInfo eventData = new SCreepSpawnInfo() {
+                    creepCount = 1,
+                    creepType = spawnedCreep.creepType
+                };
+                EventDispatcher<SCreepSpawnInfo>.Dispatch(CustomEvents.CreepSpawned, eventData);
             }
         }
 

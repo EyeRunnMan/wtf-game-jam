@@ -3,6 +3,7 @@ using NavMeshPlus.Components;
 using WTF.Configs;
 using WTF.Events;
 using WTF.Helpers;
+using WTF.Models;
 using WTF.Players;
 
 namespace WTF.GameControls
@@ -15,6 +16,16 @@ namespace WTF.GameControls
             [SerializeField] private NavMeshSurface m_meshSurface;
 
             private bool m_creepsSpawned;
+
+            public Transform spawnParent
+            {
+                set { m_creepParentObject = value; }
+            }
+
+            public NavMeshSurface meshSurface
+            {
+                set { m_meshSurface = value; }
+            }
 
             private void OnEnable()
             {
@@ -42,7 +53,7 @@ namespace WTF.GameControls
 
             private void CreateAndPlaceCreeps(Creep creep, int count)
             {
-                if (!CreepsTracker.GetInstance().CanSpawnMoreCreeps(5))
+                if (!CreepsTracker.GetInstance().CanSpawnMoreCreeps(count))
                 {
                     return;
                 }
@@ -56,7 +67,12 @@ namespace WTF.GameControls
                     Creep spawnedCreep = Instantiate(creep, new Vector3(x, y, 0), Quaternion.identity);
                     spawnedCreep.transform.parent = m_creepParentObject;
                 }
-                EventDispatcher<int>.Dispatch(CustomEvents.CreepSpawned, count);
+
+                SCreepSpawnInfo eventData = new SCreepSpawnInfo() {
+                    creepCount = count,
+                    creepType = creep.creepType
+                };
+                EventDispatcher<SCreepSpawnInfo>.Dispatch(CustomEvents.CreepSpawned, eventData);
             }
         }
 }
