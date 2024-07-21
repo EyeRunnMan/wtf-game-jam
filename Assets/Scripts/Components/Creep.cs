@@ -1,11 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using WTF.PlayerControls;
 using WTF.Configs;
 using WTF.Common;
 using WTF.Common.InputSystem;
 using WTF.Events;
+using WTF.Models;
+using WTF.PlayerControls;
 
 namespace WTF.Players
 {
@@ -19,7 +20,7 @@ namespace WTF.Players
         [SerializeField] private CreepExplosion m_explosionHandler;
         [SerializeField] private Transform m_mergedCreepsParent;
 
-        private bool m_isSelected;
+        public bool m_isSelected;
         private int m_creepCount = 1;
         private InputSystem m_inputSystem;
 
@@ -85,9 +86,9 @@ namespace WTF.Players
 //             m_movementController.isSelected = false;
         }
 
-        private void OnDoubleTap(Vector2 tapPos)
+        private void OnDoubleTap(Vector2[] tapPos)
         {
-            if (!IsPointInObject(tapPos) || !m_isSelected || m_creepCount <= 1)
+            if (!IsPointInObject(tapPos[0]) || !IsPointInObject(tapPos[1]) || m_creepCount <= 1)
             {
                 if (m_isSelected)
                 {
@@ -119,6 +120,11 @@ namespace WTF.Players
             get { return m_type; }
         }
 
+        public int creepCount
+        {
+            get { return m_creepCount; }
+        }
+
         public Transform mergedCreepsParent
         {
             get { return m_mergedCreepsParent; }
@@ -140,6 +146,13 @@ namespace WTF.Players
             {
                 Creep newCreep = m_spriteHandler.UpdateCharacterAndSprite(type, m_creepCount - 1);
                 newCreep.explosionHandler.TriggerExplosion(m_creepCount, type);
+
+                SCreepConvertedInfo eventData = new SCreepConvertedInfo() {
+                    creepCount = 1,
+                    oldCreepType = m_type,
+                    newCreepType = type
+                };
+                EventDispatcher<SCreepConvertedInfo>.Dispatch(CustomEvents.CreepConverted, eventData);
                 return;
             }
 
@@ -162,6 +175,12 @@ namespace WTF.Players
                 child.gameObject.SetActive(true);
                 childCreep.ExplodeMove();
             }
+
+            SCreepsExplodeInfo eventData = new SCreepsExplodeInfo() {
+                creepCount = m_creepCount,
+                creepType = m_type
+            };
+            EventDispatcher<SCreepsExplodeInfo>.Dispatch(CustomEvents.CreepsExploded, eventData);
 
             m_creepCount = 1;
             UpdateSprite();
@@ -189,6 +208,8 @@ namespace WTF.Players
             await m_movementController.NavigateToDestination(dest.transform.position);
             transform.parent = dest.mergedCreepsParent;
             gameObject.SetActive(false);
+            m_isSelected = false;
+            m_movementController.isSelected = false;
         }
 
         public void DoMerge(int creepCount)
@@ -196,6 +217,8 @@ namespace WTF.Players
             m_creepCount = creepCount;
             UpdateSprite();
             // Swap sprite and play merge anim
+            m_isSelected = false;
+            m_movementController.isSelected = false;
         }
     }
 }

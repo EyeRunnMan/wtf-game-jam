@@ -35,6 +35,7 @@ namespace WTF.Helpers
         private MovesTracker()
         {
             EventDispatcher<SCreepsGroupInfo>.Register(CustomEvents.CreepsGrouped, OnCreepsGrouped);
+            EventDispatcher<SCreepsExplodeInfo>.Register(CustomEvents.CreepsExploded, OnCreepsExploded);
         }
 
         private void OnCreepsGrouped(SCreepsGroupInfo creepsInfo)
@@ -45,6 +46,16 @@ namespace WTF.Helpers
             }
 
             m_noOfMoves[creepsInfo.creepType] -= creepsInfo.creepCount;
+        }
+
+        private void OnCreepsExploded(SCreepsExplodeInfo creepsInfo)
+        {
+            if (!m_noOfMoves.ContainsKey(creepsInfo.creepType))
+            {
+                m_noOfMoves[creepsInfo.creepType] = LevelCreepsConfig.MaxCreepGrouping;
+            }
+
+            m_noOfMoves[creepsInfo.creepType] += creepsInfo.creepCount;
         }
     }
 }

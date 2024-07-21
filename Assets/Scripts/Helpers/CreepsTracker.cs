@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using WTF.Configs;
@@ -31,6 +32,7 @@ namespace WTF.Helpers
         {
             m_noOfCreeps = 0;
             EventDispatcher<SCreepSpawnInfo>.Register(CustomEvents.CreepSpawned, OnCreepSpawned);
+            EventDispatcher<SCreepConvertedInfo>.Register(CustomEvents.CreepConverted, OnCreepConverted);
         }
 
         private void OnCreepSpawned(SCreepSpawnInfo creepsInfo)
@@ -43,6 +45,62 @@ namespace WTF.Helpers
             }
 
             m_creepTypeMap[creepsInfo.creepType] += creepsInfo.creepCount;
+
+            CheckEndCondition();
+        }
+
+        private void OnCreepConverted(SCreepConvertedInfo creepsInfo)
+        {
+            if (!m_creepTypeMap.ContainsKey(creepsInfo.newCreepType))
+            {
+                m_creepTypeMap[creepsInfo.newCreepType] = 0;
+            }
+
+            m_creepTypeMap[creepsInfo.newCreepType] += creepsInfo.creepCount;
+
+            if (!m_creepTypeMap.ContainsKey(creepsInfo.oldCreepType))
+            {
+                m_creepTypeMap[creepsInfo.oldCreepType] = 0;
+                return;
+            }
+
+            m_creepTypeMap[creepsInfo.oldCreepType] -= creepsInfo.creepCount;
+            if (m_creepTypeMap[creepsInfo.oldCreepType] < 0)
+            {
+                m_creepTypeMap[creepsInfo.oldCreepType] = 0;
+            }
+
+            CheckEndCondition();
+        }
+
+        private void CheckEndCondition()
+        {
+            bool gameEnd = false;
+            Nullable<CreepTypes> winner = null;
+            foreach(KeyValuePair<CreepTypes, int> entry in m_creepTypeMap)
+            {
+                if (entry.Value == 0)
+                {
+                    gameEnd = true;
+                    winner = entry.Key;
+                    break;
+                }
+            }
+
+            if (gameEnd)
+            {
+                EventDispatcher<bool>.Dispatch(CustomEvents.GameEnd, true);
+                if (winner == CreepTypes.Player)
+                {
+                    EventDispatcher<bool>.Dispatch(CustomEvents.GameWin, true);
+                    Debug.Log("Game Win!!");
+                }
+                else
+                {
+                    EventDispatcher<bool>.Dispatch(CustomEvents.GameLose, true);
+                    Debug.Log("Game Lose!!");
+                }
+            }
         }
     }
 }

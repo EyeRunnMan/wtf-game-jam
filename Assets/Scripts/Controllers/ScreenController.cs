@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScreenController : MonoBehaviour
 {
@@ -54,6 +55,15 @@ public class ScreenController : MonoBehaviour
             {
                 item.screenPrefab.SetActive(true);
             }
+        }
+
+        if (screen == SCREEN_TYPE.PAUSE)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
     }
     public void CloseAllScreens()

@@ -14,12 +14,12 @@ namespace WTF.Common.InputSystem
         private bool isInterrupted = false;
         private bool canProcessMoveInput = false;
         private float doubleTapTimer = 0f;
-        private bool isCheckingForDoubleTap = false;
+        private Vector2 lastTap = Vector2.positiveInfinity;
 
         public event Action<Vector2> OnSwipeStartEvent;
         public event Action<Vector2> OnDuringSwipeEvent;
         public event Action OnSwipeEventEnded;
-        public event Action<Vector2> OnDoubleTapEvent;
+        public event Action<Vector2[]> OnDoubleTapEvent;
 
         public static InputSystem GetInstance()
         {
@@ -41,7 +41,7 @@ namespace WTF.Common.InputSystem
 
         private void Update()
         {
-            if (isCheckingForDoubleTap)
+            if (lastTap != Vector2.positiveInfinity)
             {
                 doubleTapTimer += Time.deltaTime;
             }
@@ -50,13 +50,13 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.touches[0].phase == TouchPhase.Began || Input.GetMouseButtonDown(0))
                 {
-                    if (isCheckingForDoubleTap && doubleTapTimer < doubleTapDelayInSeconds)
+                    if (lastTap != Vector2.positiveInfinity && doubleTapTimer < doubleTapDelayInSeconds)
                     {
                         OnDoubleTap(Input.touches[0].position);
                     }
                     else
                     {
-                        isCheckingForDoubleTap = true;
+                        lastTap = Input.touches[0].position;
                         doubleTapTimer = 0;
                         OnInteractionStart(Input.touches[0].position);
                     }
@@ -74,13 +74,13 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (isCheckingForDoubleTap && doubleTapTimer < doubleTapDelayInSeconds)
+                    if (lastTap != Vector2.positiveInfinity && doubleTapTimer < doubleTapDelayInSeconds)
                     {
                         OnDoubleTap(Input.mousePosition);
                     }
                     else
                     {
-                        isCheckingForDoubleTap = true;
+                        lastTap = Input.mousePosition;
                         doubleTapTimer = 0;
                         OnInteractionStart(Input.mousePosition);
                     }
@@ -116,9 +116,10 @@ namespace WTF.Common.InputSystem
 
         public void OnDoubleTap(Vector2 screenPosition)
         {
-            isCheckingForDoubleTap = false;
+            Vector2[] tapPoints = {Camera.main.ScreenToWorldPoint(lastTap), Camera.main.ScreenToWorldPoint(screenPosition)};
+            OnDoubleTapEvent?.Invoke(tapPoints);
+            lastTap = Vector2.positiveInfinity;
             doubleTapTimer = 0;
-            OnDoubleTapEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
         }
 
         public void InterruptInteraction()

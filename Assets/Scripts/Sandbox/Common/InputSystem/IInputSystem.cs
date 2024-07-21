@@ -21,7 +21,7 @@ namespace WTF.Common.InputSystem
         /// <summary>
         /// When player double taps
         /// </summary>
-        event Action<Vector2> OnDoubleTapEvent;
+        event Action<Vector2[]> OnDoubleTapEvent;
 
         /// <summary>
         /// Call this when you want to interrupt any ongoing interaction

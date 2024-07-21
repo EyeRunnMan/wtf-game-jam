@@ -38,6 +38,7 @@ namespace WTF.PlayerControls
         public Creep UpdateCharacterAndSprite(CreepTypes creepType, int spriteType)
         {
             gameObject.SetActive(false);
+            Creep oldCreep = GetComponent<Creep>();
 
             Creep newCreep = m_factory.CreateCreep(creepType);
 
@@ -50,9 +51,9 @@ namespace WTF.PlayerControls
             newCreep.transform.rotation = transform.rotation;
             newCreep.spriteHandler.UpdateSprite(creepType, spriteType);
 
-            foreach (Transform child in transform)
+            foreach (Transform child in oldCreep.mergedCreepsParent)
             {
-                child.parent = newCreep.transform;
+                child.parent = newCreep.mergedCreepsParent;
             }
             newCreep.transform.parent = transform.parent;
 

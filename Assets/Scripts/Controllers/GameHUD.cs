@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using WTF.Configs;
 using WTF.Events;
+using WTF.Models;
 using WTF.Players;
 
 public class GameHUD : MonoBehaviour
@@ -18,12 +19,14 @@ public class GameHUD : MonoBehaviour
     {
         EventDispatcher<Creep>.Register(CustomEvents.CreepSelected, OnCreepSelected);
         EventDispatcher<Creep>.Register(CustomEvents.CreepUnselected, OnCreepUnselected);
+        EventDispatcher<SCreepsExplodeInfo>.Register(CustomEvents.CreepsExploded, OnCreepsExploded);
     }
 
     private void OnDisable()
     {
         EventDispatcher<Creep>.Unregister(CustomEvents.CreepSelected, OnCreepSelected);
         EventDispatcher<Creep>.Unregister(CustomEvents.CreepUnselected, OnCreepUnselected);
+        EventDispatcher<SCreepsExplodeInfo>.Unregister(CustomEvents.CreepsExploded, OnCreepsExploded);
     }
 
     [ContextMenu("Show Win Screen")]
@@ -58,6 +61,18 @@ public class GameHUD : MonoBehaviour
         else
         {
             rightProgressWidget.UpdateProgress(1);
+        }
+    }
+
+    private void OnCreepsExploded(SCreepsExplodeInfo creepInfo)
+    {
+        if (creepInfo.creepType == CreepTypes.Player)
+        {
+            leftProgressWidget.UpdateProgress(creepInfo.creepCount);
+        }
+        else
+        {
+            rightProgressWidget.UpdateProgress(creepInfo.creepCount);
         }
     }
 }

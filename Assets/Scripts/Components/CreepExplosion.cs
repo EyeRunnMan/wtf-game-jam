@@ -13,6 +13,7 @@ namespace WTF.PlayerControls
 
         private Creep m_explosionParentCreep;
         private CreepTypes m_explosionType;
+        private int m_explosionPower;
         private float m_explosionTimer;
         private float m_explosionScale;
         private readonly float m_searchRadiusMultiplier = 2.05f;
@@ -25,6 +26,7 @@ namespace WTF.PlayerControls
         public void TriggerExplosion(int intensity, CreepTypes type)
         {
             m_explosionType = type;
+            m_explosionPower = intensity;
             m_explosionScale = m_explosionRanges[Mathf.Clamp(intensity, 0, m_explosionRanges.Length - 1)];
             ClearExplosionArea();
 
@@ -61,6 +63,11 @@ namespace WTF.PlayerControls
 
                 Creep creep = collider.transform.parent.GetComponent<Creep>();
                 if (creep == null)
+                {
+                    continue;
+                }
+
+                if (m_explosionPower <= creep.creepCount)
                 {
                     continue;
                 }
