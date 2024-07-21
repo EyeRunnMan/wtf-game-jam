@@ -33,12 +33,12 @@ public class GameHUD : MonoBehaviour
         EventDispatcher<bool>.Unregister(CustomEvents.GameLose, ShowLoseScreen);
     }
 
-    private void ShowWinScreen()
+    private void ShowWinScreen(bool _)
     {
         innerLoopScreenController.ChangeScreen(ScreenController.SCREEN_TYPE.GAME_OVER_VICTORY);
     }
 
-    private void ShowLoseScreen()
+    private void ShowLoseScreen(bool _)
     {
         innerLoopScreenController.ChangeScreen(ScreenController.SCREEN_TYPE.GAME_OVER_LOSE);
     }
