@@ -35,7 +35,7 @@ namespace WTF.Common.InputSystem.Components
 
         private void OnDuringInteraction(Vector2 vector)
         {
-            positions.Add(Camera.main.ScreenToWorldPoint(vector));
+            positions.Add(vector);
             lineRenderer.positionCount = positions.Count;
             lineRenderer.SetPositions(positions.ToArray());
         }
