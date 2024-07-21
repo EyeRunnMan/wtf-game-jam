@@ -6,6 +6,8 @@ namespace WTF.Events
         GameEnd,
         CreepSpawned,
         CreepSelected,
+        CreepUnselected,
+        CreepsGrouped,
         OutOfMoves
     }
 }

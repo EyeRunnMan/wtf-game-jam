@@ -122,6 +122,7 @@ namespace WTF.Players
             m_isSelected = false;
             m_movementController.isSelected = false;
             // Play Highlight anim in reverse
+            EventDispatcher<Creep>.Dispatch(CustomEvents.CreepUnselected, this);
         }
 
         public async Task NavigateAndHide(Creep dest)

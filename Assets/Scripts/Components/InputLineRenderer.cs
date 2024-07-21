@@ -1,53 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WTF.Events;
 
 namespace WTF.Common.InputSystem.Components
 {
     [RequireComponent(typeof(LineRenderer))]
     public class InputLineRenderer : MonoBehaviour
     {
-        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private LineRenderer m_lineRenderer;
 
-        private InputSystem inputSystem;
-        private List<Vector3> positions = new List<Vector3>();
+        private bool m_canRender;
+        private InputSystem m_inputSystem;
+        private List<Vector3> m_positions = new List<Vector3>();
 
-        private void Start()
+        private void OnEnable()
         {
-            inputSystem = InputSystem.GetInstance();
-            inputSystem.OnSwipeStartEvent += OnInterActionStarted;
-            inputSystem.OnDuringSwipeEvent += OnDuringInteraction;
-            inputSystem.OnSwipeEventEnded += OnInteractionEnded;
+            m_canRender = true;
+            m_inputSystem = InputSystem.GetInstance();
+            m_inputSystem.OnSwipeStartEvent += OnInterActionStarted;
+            m_inputSystem.OnDuringSwipeEvent += OnDuringInteraction;
+            m_inputSystem.OnSwipeEventEnded += OnInteractionEnded;
+
+            EventDispatcher<bool>.Register(CustomEvents.OutOfMoves, OnOutOfMoves);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            inputSystem.OnSwipeStartEvent -= OnInterActionStarted;
-            inputSystem.OnDuringSwipeEvent -= OnDuringInteraction;
-            inputSystem.OnSwipeEventEnded -= OnInteractionEnded;
+            m_inputSystem.OnSwipeStartEvent -= OnInterActionStarted;
+            m_inputSystem.OnDuringSwipeEvent -= OnDuringInteraction;
+            m_inputSystem.OnSwipeEventEnded -= OnInteractionEnded;
+
+            EventDispatcher<bool>.Unregister(CustomEvents.OutOfMoves, OnOutOfMoves);
         }
 
         private void OnInteractionEnded()
         {
-            positions.Clear();
+            m_positions.Clear();
 
-            lineRenderer.positionCount = 0;
-            lineRenderer.SetPositions(positions.ToArray());
+            m_lineRenderer.positionCount = 0;
+            m_lineRenderer.SetPositions(m_positions.ToArray());
         }
 
         private void OnDuringInteraction(Vector2 vector)
         {
-            positions.Add(vector);
-            lineRenderer.positionCount = positions.Count;
-            lineRenderer.SetPositions(positions.ToArray());
+            if (!m_canRender)
+            {
+                return;
+            }
+
+            m_positions.Add(vector);
+            m_lineRenderer.positionCount = m_positions.Count;
+            m_lineRenderer.SetPositions(m_positions.ToArray());
         }
 
         private void OnInterActionStarted(Vector2 _)
         {
-            positions.Clear();
+            m_positions.Clear();
 
-            lineRenderer.positionCount = 0;
-            lineRenderer.SetPositions(positions.ToArray());
+            m_lineRenderer.positionCount = 0;
+            m_lineRenderer.SetPositions(m_positions.ToArray());
+        }
+
+        private void OnOutOfMoves(bool _)
+        {
+            m_canRender = false;
         }
     }
 }

@@ -956,10 +956,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58341a5e0fd21bb49a64ccde1579afbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressImages:
+  m_progressImages:
   - {fileID: 6074506256845786528}
   - {fileID: 9032298371941295948}
   - {fileID: 5141896498770002719}
   - {fileID: 1653608458067284804}
   - {fileID: 1214237844329401315}
-  currentProgress: 0
