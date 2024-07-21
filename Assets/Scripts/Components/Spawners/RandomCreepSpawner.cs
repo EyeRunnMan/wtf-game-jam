@@ -21,13 +21,17 @@ namespace WTF.GameControls
             set { m_creepParentObject = value; }
         }
 
+        public bool startSpawning
+        {
+            set { m_canSpawn = value; }
+        }
+
         private void OnEnable()
         {
             m_canSpawn = false;
             m_timer = 0;
             m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
 
-            EventDispatcher<bool>.Register(CustomEvents.GameStart, OnGameStart);
             EventDispatcher<bool>.Register(CustomEvents.GameEnd, OnGameEnd);
         }
 
@@ -56,7 +60,6 @@ namespace WTF.GameControls
 
         private void OnDisable()
         {
-            EventDispatcher<bool>.Unregister(CustomEvents.GameStart, OnGameStart);
             EventDispatcher<bool>.Unregister(CustomEvents.GameEnd, OnGameEnd);
         }
 
@@ -68,11 +71,6 @@ namespace WTF.GameControls
             {
                 m_timer = 0;
             }
-        }
-
-        private void OnGameStart(bool _)
-        {
-            m_canSpawn = true;
         }
 
         private void OnGameEnd(bool _)

@@ -15,7 +15,7 @@ namespace WTF.GameControls
             [SerializeField] private Transform m_creepParentObject;
             [SerializeField] private NavMeshSurface m_meshSurface;
 
-            private bool m_creepsSpawned;
+            private bool m_creepsSpawned = false;
 
             public Transform spawnParent
             {
@@ -27,18 +27,7 @@ namespace WTF.GameControls
                 set { m_meshSurface = value; }
             }
 
-            private void OnEnable()
-            {
-                m_creepsSpawned = false;
-                EventDispatcher<bool>.Register(CustomEvents.GameStart, SpawnCreeps);
-            }
-
-            private void OnDisable()
-            {
-                EventDispatcher<bool>.Unregister(CustomEvents.GameStart, SpawnCreeps);
-            }
-
-            private void SpawnCreeps(bool _)
+            public void SpawnCreeps()
             {
                 if (m_creepsSpawned)
                 {

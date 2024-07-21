@@ -36,6 +36,7 @@ namespace WTF.GameControls
             {
                 levelSpawners[i].spawnParent = m_creepParentObject;
                 levelSpawners[i].meshSurface = m_meshSurface;
+                levelSpawners[i].SpawnCreeps();
             }
 
             RandomCreepSpawner[] randomSpawners = GetComponentsInChildren<RandomCreepSpawner>(true);
@@ -43,6 +44,7 @@ namespace WTF.GameControls
             for (int i = 0; i < randomSpawners.Length; ++i)
             {
                 randomSpawners[i].spawnParent = m_creepParentObject;
+                randomSpawners[i].startSpawning = true;
             }
         }
 
