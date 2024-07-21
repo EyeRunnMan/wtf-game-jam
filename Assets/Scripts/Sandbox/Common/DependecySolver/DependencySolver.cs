@@ -13,14 +13,6 @@ namespace WTF.Common
 
         private static readonly List<object> ToDispose = new List<object>();
         public static readonly List<string> RegisteredInstances = new List<string>();
-
-        public static void Initialize()
-        {
-            var go = new GameObject();
-            var instance = go.AddComponent<DependencySolver>();
-            DontDestroyOnLoad(instance);
-            go.name = "[DependencySolver]";
-        }
         public static T GetInstance<T>() where T : class => InstanceContainer<T>.Instance;
 
         public static bool TryGetInstance<T>(out T value) where T : class => (value = InstanceContainer<T>.Instance) != null;
@@ -60,6 +52,7 @@ namespace WTF.Common
         {
             ToDispose.Clear();
             RegisteredInstances.Clear();
+            DontDestroyOnLoad(gameObject);
         }
 
         private void OnDestroy()

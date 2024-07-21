@@ -14,7 +14,6 @@ namespace WTF.Common.IdentitySystem
         public void AddIdentityMetas(List<IdentityMeta> identities)
         {
             _mapper.AddIdentityMetas(identities);
-            gameObject.name = nameof(IdentitySystem);
         }
 
         private void Awake()
