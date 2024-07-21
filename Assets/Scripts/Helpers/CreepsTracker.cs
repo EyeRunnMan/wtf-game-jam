@@ -76,13 +76,13 @@ namespace WTF.Helpers
         private void CheckEndCondition()
         {
             bool gameEnd = false;
-            Nullable<CreepTypes> winner = null;
+            Nullable<CreepTypes> loser = null;
             foreach(KeyValuePair<CreepTypes, int> entry in m_creepTypeMap)
             {
                 if (entry.Value == 0)
                 {
                     gameEnd = true;
-                    winner = entry.Key;
+                    loser = entry.Key;
                     break;
                 }
             }
@@ -90,15 +90,15 @@ namespace WTF.Helpers
             if (gameEnd)
             {
                 EventDispatcher<bool>.Dispatch(CustomEvents.GameEnd, true);
-                if (winner == CreepTypes.Player)
-                {
-                    EventDispatcher<bool>.Dispatch(CustomEvents.GameWin, true);
-                    Debug.Log("Game Win!!");
-                }
-                else
+                if (loser == CreepTypes.Player)
                 {
                     EventDispatcher<bool>.Dispatch(CustomEvents.GameLose, true);
                     Debug.Log("Game Lose!!");
+                }
+                else
+                {
+                    EventDispatcher<bool>.Dispatch(CustomEvents.GameWin, true);
+                    Debug.Log("Game Win!!");
                 }
             }
         }
