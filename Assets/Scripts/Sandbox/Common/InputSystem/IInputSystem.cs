@@ -8,7 +8,7 @@ namespace WTF.Common.InputSystem
         /// <summary>
         /// When the interaction starts
         /// </summary>
-        event Action OnInteractionStartEvent;
+        event Action<Vector2> OnInteractionStartEvent;
         /// <summary>
         /// When the interaction is ongoing and the position of the interaction is updated
         /// position is in screen space

@@ -9,7 +9,7 @@ namespace WTF.Common.InputSystem
         bool isInterrupted = false;
         bool canProcessMoveInput = false;
 
-        public event Action OnInteractionStartEvent;
+        public event Action<Vector2> OnInteractionStartEvent;
         public event Action<Vector2> OnDuringInteractionEvent;
         public event Action OnInteractionEndedEvent;
 
@@ -31,7 +31,7 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.touches[0].phase == TouchPhase.Began || Input.GetMouseButtonDown(0))
                 {
-                    OnInteractionStart();
+                    OnInteractionStart(Input.touches[0].position);
                 }
                 if (Input.touches[0].phase == TouchPhase.Ended || Input.GetMouseButtonUp(0) || isInterrupted)
                 {
@@ -46,7 +46,7 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    OnInteractionStart();
+                    OnInteractionStart(Input.mousePosition);
                 }
                 if (Input.GetMouseButtonUp(0) || isInterrupted)
                 {
@@ -67,14 +67,14 @@ namespace WTF.Common.InputSystem
 
         public void OnDuringInteraction(Vector2 screenPosition)
         {
-            OnDuringInteractionEvent?.Invoke(screenPosition);
+            OnDuringInteractionEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
         }
 
-        public void OnInteractionStart()
+        public void OnInteractionStart(Vector2 screenPosition)
         {
             isInterrupted = false;
             canProcessMoveInput = true;
-            OnInteractionStartEvent?.Invoke();
+            OnInteractionStartEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
         }
 
         public void InterruptInteraction()
