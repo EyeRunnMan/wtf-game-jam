@@ -1035,6 +1035,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8116500571467427844, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
+      propertyPath: audioID
+      value: 
+      objectReference: {fileID: 11400000, guid: 50fe42fd905090046bf6117e2fbba67b, type: 2}
     - target: {fileID: 8465887204683658830, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
       propertyPath: m_Name
       value: OUTERLOOP_SCREEN_CONTROLLER
@@ -1090,64 +1094,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3408125976874900506, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8681824726742081695}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
---- !u!114 &8681824726742081691 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2537979545154852969, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
-  m_PrefabInstance: {fileID: 8681824726742081690}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58341a5e0fd21bb49a64ccde1579afbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8681824726742081692 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7065819970716967010, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
-  m_PrefabInstance: {fileID: 8681824726742081690}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8681824726742081693 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6573035539370136182, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
-  m_PrefabInstance: {fileID: 8681824726742081690}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58341a5e0fd21bb49a64ccde1579afbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &8681824726742081694 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3408125976874900506, guid: 84e2ddb15fe75b94b8d72ae55aedb368, type: 3}
-  m_PrefabInstance: {fileID: 8681824726742081690}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8681824726742081695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8681824726742081694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9454eb352ed32714993b1e014ccf4867, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftProgressWidget: {fileID: 8681824726742081693}
-  rightProgressWidget: {fileID: 8681824726742081691}
-  pauseButton: {fileID: 8681824726742081692}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
