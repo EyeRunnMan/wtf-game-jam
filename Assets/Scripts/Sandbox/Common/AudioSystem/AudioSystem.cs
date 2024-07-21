@@ -26,7 +26,6 @@ namespace WTF.common.AudioSystem
         {
             DependencySolver.RegisterInstance(this as IAudioSystem);
             DontDestroyOnLoad(gameObject);
-            gameObject.name = nameof(AudioSystem);
             _mapper = new AudioMapper(AudioDataContainer.AudioDataList);
 
         }
