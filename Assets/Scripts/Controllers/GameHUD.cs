@@ -20,6 +20,8 @@ public class GameHUD : MonoBehaviour
         EventDispatcher<Creep>.Register(CustomEvents.CreepSelected, OnCreepSelected);
         EventDispatcher<Creep>.Register(CustomEvents.CreepUnselected, OnCreepUnselected);
         EventDispatcher<SCreepsExplodeInfo>.Register(CustomEvents.CreepsExploded, OnCreepsExploded);
+        EventDispatcher<bool>.Register(CustomEvents.GameWin, ShowWinScreen);
+        EventDispatcher<bool>.Register(CustomEvents.GameLose, ShowLoseScreen);
     }
 
     private void OnDisable()
@@ -27,15 +29,16 @@ public class GameHUD : MonoBehaviour
         EventDispatcher<Creep>.Unregister(CustomEvents.CreepSelected, OnCreepSelected);
         EventDispatcher<Creep>.Unregister(CustomEvents.CreepUnselected, OnCreepUnselected);
         EventDispatcher<SCreepsExplodeInfo>.Unregister(CustomEvents.CreepsExploded, OnCreepsExploded);
+        EventDispatcher<bool>.Unregister(CustomEvents.GameWin, ShowWinScreen);
+        EventDispatcher<bool>.Unregister(CustomEvents.GameLose, ShowLoseScreen);
     }
 
-    [ContextMenu("Show Win Screen")]
-    public void ShowWinScreen()
+    private void ShowWinScreen()
     {
         innerLoopScreenController.ChangeScreen(ScreenController.SCREEN_TYPE.GAME_OVER_VICTORY);
     }
-    [ContextMenu("Show lose Screen")]
-    public void ShowLoseScreen()
+
+    private void ShowLoseScreen()
     {
         innerLoopScreenController.ChangeScreen(ScreenController.SCREEN_TYPE.GAME_OVER_LOSE);
     }
