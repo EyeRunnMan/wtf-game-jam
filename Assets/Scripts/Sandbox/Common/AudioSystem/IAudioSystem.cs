@@ -10,6 +10,9 @@ namespace WTF.common.AudioSystem
 
         public void PlayAudioOnSource(Identity identity, AudioSource audioSource);
         public void PlayAudio(Identity identity);
+        public bool isActive { get; }
+        public void ToggleSound(bool isOn);
+
     }
 
 }

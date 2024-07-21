@@ -17,6 +17,9 @@ namespace WTF.common.AudioSystem
         public IIdentitySystem identitySystem;
 
         public IIdentityMapper<AudioMeta> mapper => _mapper;
+        private bool _isActive;
+        public bool isActive => _isActive;
+
         [SerializeField]
         private AudioSource audioSource;
         private void Awake()
@@ -33,6 +36,8 @@ namespace WTF.common.AudioSystem
             DependencySolver.TryGetInstance(out debugSystem);
             DependencySolver.TryGetInstance(out identitySystem);
             identitySystem.AddIdentityMetas(AudioDataContainer.AudioDataList.ConvertAll(x => x.audioMeta.identityMeta));
+            _isActive = true;
+            ToggleSound(_isActive);
         }
         private void OnDestroy()
         {
@@ -67,6 +72,14 @@ namespace WTF.common.AudioSystem
         {
             PlayAudioOnSource(identity, audioSource);
         }
-    }
 
+        public void ToggleSound(bool isOn)
+        {
+            _isActive = isOn;
+            audioSource.mute = !isOn;
+            if (!isOn)
+                audioSource.Stop();
+        }
+    }
 }
+
