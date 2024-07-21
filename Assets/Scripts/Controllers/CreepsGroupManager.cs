@@ -53,7 +53,7 @@ namespace WTF.PlayerControls
 
         private void OnSwipeEnd()
         {
-            StartMerge().Wait();
+            StartMerge();
         }
 
         private async Task StartMerge()
@@ -80,6 +80,10 @@ namespace WTF.PlayerControls
             await Task.WhenAll(moveTasks.ToArray());
 
             lastCreep.DoMerge(m_creepsSelected.Count);
+            foreach (var item in m_creepsSelected)
+            {
+                item.DeselectCreep();
+            }
             m_creepsSelected.Clear();
         }
     }

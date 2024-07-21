@@ -77,9 +77,9 @@ namespace WTF.Players
                 return;
             }
 
-            // Do Something
-            m_isSelected = false;
-            m_movementController.isSelected = false;
+            // // Do Something
+            // m_isSelected = false;
+            // m_movementController.isSelected = false;
         }
 
         private bool IsPointInObject(Vector2 position)

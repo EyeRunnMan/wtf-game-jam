@@ -8,6 +8,7 @@ namespace WTF.PlayerControls
 {
     public class CreepMovementController : MonoBehaviour
     {
+        private const int V = 1;
         [SerializeField] private float m_moveRadius;
         [SerializeField] private Vector2 m_waitTime;
 
@@ -31,10 +32,11 @@ namespace WTF.PlayerControls
             m_agent.updateRotation = false;
         }
 
-        private void Update() {
+        private void Update()
+        {
             if (m_isSelected)
             {
-                if(m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
+                if (m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
                 {
                     m_agent.ResetPath();
                 }
@@ -43,7 +45,8 @@ namespace WTF.PlayerControls
 
             m_timer += Time.deltaTime;
 
-            if (m_timer >= m_nextSpawnTime) {
+            if (m_timer >= m_nextSpawnTime)
+            {
                 Vector3 newPos = GetRandomNavSphere();
                 m_agent.SetDestination(newPos);
                 m_timer = 0;
@@ -66,8 +69,9 @@ namespace WTF.PlayerControls
         public async Task NavigateToDestination(Vector3 position)
         {
             m_agent.SetDestination(position);
+            await Task.Delay(500);
 
-            while(m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
+            while (m_agent.remainingDistance > V)
             {
                 await Task.Delay(500);
             }
