@@ -64,7 +64,7 @@ namespace WTF.PlayerControls
 
             while(m_agent.pathStatus != NavMeshPathStatus.PathComplete && m_agent.remainingDistance > 0)
             {
-                await Task.Delay(1000);
+                await Task.Delay(500);
             }
         }
     }

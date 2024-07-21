@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using WTF.Common.InputSystem;
+using WTF.Configs;
 using WTF.Events;
 using WTF.Players;
 
@@ -12,6 +13,7 @@ namespace WTF.PlayerControls
     {
         private InputSystem m_inputSystem;
         private List<Creep> m_creepsSelected;
+        private CreepTypes m_selectionType;
 
         private void OnEnable()
         {
@@ -35,6 +37,17 @@ namespace WTF.PlayerControls
 
         private void OnCreepSelected(Creep selectedCreep)
         {
+            if (m_creepsSelected.Count == 0)
+            {
+                m_selectionType = selectedCreep.creepType;
+            }
+
+            if (m_selectionType != selectedCreep.creepType)
+            {
+                selectedCreep.DeselectCreep(true);
+                return;
+            }
+
             m_creepsSelected.Add(selectedCreep);
         }
 

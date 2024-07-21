@@ -16,7 +16,7 @@ namespace WTF.Players
         [SerializeField] private CreepMovementController m_movementController;
 
         private bool m_isSelected;
-        private int m_creepCount;
+        private int m_creepCount = 1;
         private InputSystem m_inputSystem;
 
         private void OnEnable()
@@ -93,7 +93,7 @@ namespace WTF.Players
             get { return m_type; }
         }
 
-        public void DeselectCreep()
+        public void DeselectCreep(bool skipAnimation = false)
         {
             m_isSelected = false;
             m_movementController.isSelected = false;
