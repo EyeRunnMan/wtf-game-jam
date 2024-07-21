@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WTF.Configs;
@@ -9,7 +10,7 @@ namespace WTF.Helpers
     public class MovesTracker
     {
         private static MovesTracker Instance;
-        private int m_noOfMoves = 0;
+        private Dictionary<CreepTypes, int> m_noOfMoves = new Dictionary<CreepTypes, int>();
 
         public static MovesTracker GetInstance()
         {
@@ -21,20 +22,29 @@ namespace WTF.Helpers
             return Instance;
         }
 
-        public bool CanMakeMove(int count)
+        public bool CanMakeMove(CreepTypes type, int count)
         {
-            return (m_noOfMoves - count) >= 0;
+            if (!m_noOfMoves.ContainsKey(type))
+            {
+                m_noOfMoves[type] = LevelCreepsConfig.MaxCreepGrouping;
+            }
+
+            return (m_noOfMoves[type] - count) >= 0;
         }
 
         private MovesTracker()
         {
-            m_noOfMoves = LevelCreepsConfig.MaxCreepGrouping;
-            EventDispatcher<int>.Register(CustomEvents.CreepsGrouped, OnCreepsGrouped);
+            EventDispatcher<SCreepsGroupInfo>.Register(CustomEvents.CreepsGrouped, OnCreepsGrouped);
         }
 
-        private void OnCreepsGrouped(int creepCount)
+        private void OnCreepsGrouped(SCreepsGroupInfo creepsInfo)
         {
-            m_noOfMoves -= creepCount;
+            if (!m_noOfMoves.ContainsKey(creepsInfo.creepType))
+            {
+                m_noOfMoves[creepsInfo.creepType] = LevelCreepsConfig.MaxCreepGrouping;
+            }
+
+            m_noOfMoves[creepsInfo.creepType] -= creepsInfo.creepCount;
         }
     }
 }
