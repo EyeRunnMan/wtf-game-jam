@@ -14,6 +14,9 @@ namespace WTF.Players
         [SerializeField] private CreepTypes m_type;
         [SerializeField] private SpriteRenderer m_spriteRenderer;
         [SerializeField] private CreepMovementController m_movementController;
+        [SerializeField] private SpriteRenderer m_charSpriteRenderer;
+        [SerializeField] private Sprite[] m_charSprites;
+        [SerializeField] private Transform m_mergedCreepsParent;
 
         private bool m_isSelected;
         private int m_creepCount = 1;
@@ -88,9 +91,28 @@ namespace WTF.Players
                     position.y >= spriteMin.y && position.y <= spriteMax.y);
         }
 
+        private void UpdateSprite()
+        {
+            if (m_creepCount < 1)
+            {
+                m_creepCount = 1;
+            }
+            else if (m_creepCount >= m_charSprites.Length)
+            {
+                m_creepCount = m_charSprites.Length;
+            }
+
+            m_charSpriteRenderer.sprite = m_charSprites[m_creepCount - 1];
+        }
+
         public CreepTypes creepType
         {
             get { return m_type; }
+        }
+
+        public Transform mergedCreepsParent
+        {
+            get { return m_mergedCreepsParent; }
         }
 
         public void DeselectCreep(bool skipAnimation = false)
@@ -100,16 +122,17 @@ namespace WTF.Players
             // Play Highlight anim in reverse
         }
 
-        public async Task NavigateAndHide(Transform dest)
+        public async Task NavigateAndHide(Creep dest)
         {
-            await m_movementController.NavigateToDestination(dest.position);
-            transform.parent = dest;
+            await m_movementController.NavigateToDestination(dest.transform.position);
+            transform.parent = dest.mergedCreepsParent;
             gameObject.SetActive(false);
         }
 
         public void DoMerge(int creepCount)
         {
             m_creepCount = creepCount;
+            UpdateSprite();
             // Swap sprite and play merge anim
         }
     }

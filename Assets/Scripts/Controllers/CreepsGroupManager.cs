@@ -69,7 +69,7 @@ namespace WTF.PlayerControls
             List<Task> moveTasks = new List<Task>();
             for (int i = 0; i < m_creepsSelected.Count - 1; ++i)
             {
-                moveTasks.Add(m_creepsSelected[i].NavigateAndHide(lastCreep.transform));
+                moveTasks.Add(m_creepsSelected[i].NavigateAndHide(lastCreep));
             }
 
             await Task.WhenAll(moveTasks.ToArray());

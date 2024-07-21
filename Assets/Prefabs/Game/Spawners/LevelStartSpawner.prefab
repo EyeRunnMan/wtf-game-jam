@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c44fc2c44104fbebe1a559947a3756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playerCreeps: {fileID: -7207312307672097185, guid: fece56f1de33f4d1aa04576e1919d97e, type: 3}
-  m_enemyCreeps: {fileID: -7207312307672097185, guid: fece56f1de33f4d1aa04576e1919d97e, type: 3}
+  m_playerCreeps: {fileID: 1073156494752816855, guid: 4ebe870aa75684e97a7b28e5bbbe2256, type: 3}
+  m_enemyCreeps: {fileID: 3862574373985761893, guid: 7e29d7d2e12214e85bf9cd7747317a14, type: 3}
   m_creepParentObject: {fileID: 0}
   m_meshSurface: {fileID: 0}

@@ -28,6 +28,7 @@ namespace WTF.PlayerControls
             m_timer = m_nextSpawnTime;
 
             m_agent = GetComponent<NavMeshAgent>();
+            m_agent.updateRotation = false;
         }
 
         private void Update() {
