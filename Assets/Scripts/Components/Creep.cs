@@ -1,26 +1,116 @@
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
+using WTF.PlayerControls;
+using WTF.Configs;
 using WTF.Common;
 using WTF.Common.InputSystem;
-using WTF.PlayerControls;
+using WTF.Events;
 
 namespace WTF.Players
 {
     public class Creep : MonoBehaviour
     {
-        IInputSystem m_inputSystem;
-        [SerializeField] private RandomMoveController m_movementController;
-        private void Start()
-        {
-            DependencySolver.TryGetInstance(out m_inputSystem);
+        [SerializeField] private CreepTypes m_type;
+        [SerializeField] private SpriteRenderer m_spriteRenderer;
+        [SerializeField] private CreepMovementController m_movementController;
 
+        private bool m_isSelected;
+        private int m_creepCount;
+        private InputSystem m_inputSystem;
+
+        private void OnEnable()
+        {
+            m_inputSystem = InputSystem.GetInstance();
+
+            m_inputSystem.OnSwipeStartEvent += OnSwipeStart;
+            m_inputSystem.OnDuringSwipeEvent += OnDuringSwipe;
+            m_inputSystem.OnSwipeEventEnded += OnSwipeEnd;
+        }
+
+        private void OnDisable()
+        {
             if (m_inputSystem == null)
             {
-                Debug.LogWarning("No I/O!!");
                 return;
             }
 
-            Debug.LogWarning("YAY");
+            m_inputSystem.OnSwipeStartEvent -= OnSwipeStart;
+            m_inputSystem.OnDuringSwipeEvent -= OnDuringSwipe;
+            m_inputSystem.OnSwipeEventEnded -= OnSwipeEnd;
         }
 
+        private void OnSwipeStart(Vector2 startPos)
+        {
+            if (!IsPointInObject(startPos) || m_isSelected || m_creepCount > 1)
+            {
+                return;
+            }
+
+            m_isSelected = true;
+            m_movementController.isSelected = true;
+            // Play Highlight Anim
+            EventDispatcher<Creep>.Dispatch(CustomEvents.CreepSelected, this);
+        }
+
+        private void OnDuringSwipe(Vector2 movePos)
+        {
+            if (IsPointInObject(movePos) && !m_isSelected && m_creepCount == 1)
+            {
+                m_isSelected = true;
+                m_movementController.isSelected = true;
+                // Play Highlight Anim
+                EventDispatcher<Creep>.Dispatch(CustomEvents.CreepSelected, this);
+                return;
+            }
+
+            // DO Something
+        }
+
+        private void OnSwipeEnd()
+        {
+            if (!m_isSelected)
+            {
+                return;
+            }
+
+            // Do Something
+            m_isSelected = false;
+            m_movementController.isSelected = false;
+        }
+
+        private bool IsPointInObject(Vector2 position)
+        {
+            Vector3 spriteMin = m_spriteRenderer.bounds.min;
+            Vector3 spriteMax = m_spriteRenderer.bounds.max;
+
+            return (position.x >= spriteMin.x && position.x <= spriteMax.x &&
+                    position.y >= spriteMin.y && position.y <= spriteMax.y);
+        }
+
+        public CreepTypes creepType
+        {
+            get { return m_type; }
+        }
+
+        public void DeselectCreep()
+        {
+            m_isSelected = false;
+            m_movementController.isSelected = false;
+            // Play Highlight anim in reverse
+        }
+
+        public async Task NavigateAndHide(Transform dest)
+        {
+            await m_movementController.NavigateToDestination(dest.position);
+            transform.parent = dest;
+            gameObject.SetActive(false);
+        }
+
+        public void DoMerge(int creepCount)
+        {
+            m_creepCount = creepCount;
+            // Swap sprite and play merge anim
+        }
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WTF.Common;
 
 namespace WTF.Common.InputSystem.Components
 {
@@ -10,12 +9,12 @@ namespace WTF.Common.InputSystem.Components
     {
         [SerializeField] private LineRenderer lineRenderer;
 
-        private IInputSystem inputSystem;
+        private InputSystem inputSystem;
         private List<Vector3> positions = new List<Vector3>();
 
         private void Start()
         {
-            DependencySolver.TryGetInstance(out inputSystem);
+            inputSystem = InputSystem.GetInstance();
             inputSystem.OnSwipeStartEvent += OnInterActionStarted;
             inputSystem.OnDuringSwipeEvent += OnDuringInteraction;
             inputSystem.OnSwipeEventEnded += OnInteractionEnded;
