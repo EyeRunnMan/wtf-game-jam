@@ -14,14 +14,14 @@ namespace WTF.Common.InputSystem.Components
         {
             WTF.Common.DependencySolver.TryGetInstance(out inputSystem);
             inputSystem.OnSwipeStartEvent += OnInterActionStarted;
-            inputSystem.OnDuringSwipEvent += OnDuringInteraction;
+            inputSystem.OnDuringSwipeEvent += OnDuringInteraction;
             inputSystem.OnSwipeEventEnded += OnInteractionEnded;
 
         }
         private void OnDestroy()
         {
             inputSystem.OnSwipeStartEvent -= OnInterActionStarted;
-            inputSystem.OnDuringSwipEvent -= OnDuringInteraction;
+            inputSystem.OnDuringSwipeEvent -= OnDuringInteraction;
             inputSystem.OnSwipeEventEnded -= OnInteractionEnded;
         }
         List<Vector3> positions = new List<Vector3>();
@@ -40,7 +40,7 @@ namespace WTF.Common.InputSystem.Components
             lineRenderer.SetPositions(positions.ToArray());
         }
 
-        private void OnInterActionStarted()
+        private void OnInterActionStarted(Vector2 vector2)
         {
             positions.Clear();
 
