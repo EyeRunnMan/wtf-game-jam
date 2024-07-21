@@ -43,15 +43,15 @@ namespace WTF.PlayerControls
                 return;
             }
 
-            m_timer += Time.deltaTime;
+            // m_timer += Time.deltaTime;
 
-            if (m_timer >= m_nextSpawnTime)
-            {
-                Vector3 newPos = GetRandomNavSphere();
-                m_agent.SetDestination(newPos);
-                m_timer = 0;
-                m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
-            }
+            // if (m_timer >= m_nextSpawnTime)
+            // {
+            //     Vector3 newPos = GetRandomNavSphere();
+            //     m_agent.SetDestination(newPos);
+            //     m_timer = 0;
+            //     m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
+            // }
         }
 
         private Vector3 GetRandomNavSphere()
@@ -65,7 +65,11 @@ namespace WTF.PlayerControls
 
             return navHit.position;
         }
+        public bool IsOnNavMesh()
+        {
 
+            return m_agent.isOnNavMesh;
+        }
         public async Task NavigateToDestination(Vector3 position)
         {
             m_agent.SetDestination(position);

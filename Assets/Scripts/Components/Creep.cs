@@ -6,6 +6,7 @@ using WTF.Configs;
 using WTF.Common;
 using WTF.Common.InputSystem;
 using WTF.Events;
+using JetBrains.Annotations;
 
 namespace WTF.Players
 {
@@ -131,7 +132,10 @@ namespace WTF.Players
             transform.parent = dest.mergedCreepsParent;
             gameObject.SetActive(false);
         }
-
+        public bool IsOnNavMesh()
+        {
+            return m_movementController.IsOnNavMesh();
+        }
         public void DoMerge(int creepCount)
         {
             m_creepCount = creepCount;

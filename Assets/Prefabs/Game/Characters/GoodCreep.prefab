@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 1045537799979230362}
   - component: {fileID: 6937348633444694412}
   - component: {fileID: 1073156494752816855}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GoodCreep
-  m_TagString: Untagged
+  m_TagString: creep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 1802652265917790462}
   - component: {fileID: 1544869224814324249}
   - component: {fileID: 4771549164470759647}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GoodFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4971767947887435621}
   - component: {fileID: 3929295230681493329}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CharcterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +375,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8619285622397984516}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MergedCreepsHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

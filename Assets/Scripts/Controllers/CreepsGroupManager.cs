@@ -66,6 +66,19 @@ namespace WTF.PlayerControls
 
         private async Task StartMerge()
         {
+            var filteredList = new List<Creep>();
+            foreach (var creep in m_creepsSelected)
+            {
+                if (creep.IsOnNavMesh())
+                {
+                    filteredList.Add(creep);
+                }
+                else
+                {
+                    creep.DeselectCreep();
+                }
+            }
+            m_creepsSelected = filteredList;
             if (m_creepsSelected.Count == 0)
             {
                 return;
