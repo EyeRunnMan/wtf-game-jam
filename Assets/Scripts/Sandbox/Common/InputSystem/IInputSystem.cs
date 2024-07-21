@@ -8,20 +8,24 @@ namespace WTF.Common.InputSystem
         /// <summary>
         /// When the interaction starts
         /// </summary>
-        event Action<Vector2> OnInteractionStartEvent;
+        event Action<Vector2> OnSwipeStartEvent;
         /// <summary>
         /// When the interaction is ongoing and the position of the interaction is updated
         /// position is in screen space
         /// </summary>
-        event Action<Vector2> OnDuringInteractionEvent;
+        event Action<Vector2> OnDuringSwipeEvent;
         /// <summary>
         /// When the interaction ends
         /// </summary>
-        event Action OnInteractionEndedEvent;
+        event Action OnSwipeEventEnded;
+        /// <summary>
+        /// When player double taps
+        /// </summary>
+        event Action OnDoubleTapEvent;
 
         /// <summary>
-        /// Call this when you want to interrupt any ongoing interaction 
+        /// Call this when you want to interrupt any ongoing interaction
         /// </summary>
-        void InterruptInteraction();
+        void InterruptSwipe();
     }
 }

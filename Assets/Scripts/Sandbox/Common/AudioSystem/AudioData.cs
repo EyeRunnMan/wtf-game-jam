@@ -7,5 +7,11 @@ namespace WTF.common.AudioSystem
     public struct AudioData
     {
         public AudioClip audioClip;
+        public AudioType audioType;
+    }
+    public enum AudioType
+    {
+        SFX,
+        Music
     }
 }

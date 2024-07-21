@@ -9,5 +9,7 @@ namespace WTF.common.AudioSystem
         public IIdentityMapper<AudioMeta> mapper { get; }
 
         public void PlayAudioOnSource(Identity identity, AudioSource audioSource);
+        public void PlayAudio(Identity identity);
     }
+
 }

@@ -12,7 +12,7 @@ namespace WTF.Common.IdentitySystem
         private const string FILE_NAME_SUFFIX = CONSTANTS.DOT + CONSTANTS.SCRIPTABLE_OBJECT.IDENTITY;
 
         [SerializeField]
-        public Identity _identity;
+        private Identity _identity;
         public Identity Identity
         {
             get => string.IsNullOrEmpty(_identity.Id) ? Identity.Invalid : _identity;
