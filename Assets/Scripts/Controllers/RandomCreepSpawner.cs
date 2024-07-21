@@ -11,17 +11,27 @@ namespace WTF.GameControls
         [SerializeField] private Vector2 m_waitTime;
         [SerializeField] private Transform m_creepParentObject;
 
+        private bool m_canSpawn;
         private float m_timer;
         private float m_nextSpawnTime;
 
         private void OnEnable()
         {
+            m_canSpawn = false;
             m_timer = 0;
             m_nextSpawnTime = Random.Range(m_waitTime.x, m_waitTime.y);
+
+            EventDispatcher<bool>.Register(CustomEvents.GameStart, OnGameStart);
+            EventDispatcher<bool>.Register(CustomEvents.GameEnd, OnGameEnd);
         }
 
         private void Update()
         {
+            if (!m_canSpawn)
+            {
+                return;
+            }
+
             m_timer += Time.deltaTime;
 
             if (m_timer >= m_nextSpawnTime && CreepsTracker.GetInstance().CanSpawnMoreCreeps(1)) {
@@ -34,6 +44,12 @@ namespace WTF.GameControls
             }
         }
 
+        private void OnDisable()
+        {
+            EventDispatcher<bool>.Unregister(CustomEvents.GameStart, OnGameStart);
+            EventDispatcher<bool>.Unregister(CustomEvents.GameEnd, OnGameEnd);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             var creep = other.GetComponent<Creep>();
@@ -42,6 +58,16 @@ namespace WTF.GameControls
             {
                 m_timer = 0;
             }
+        }
+
+        private void OnGameStart(bool _)
+        {
+            m_canSpawn = true;
+        }
+
+        private void OnGameEnd(bool _)
+        {
+            m_canSpawn = false;
         }
     }
 }

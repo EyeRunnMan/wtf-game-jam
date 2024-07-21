@@ -16,12 +16,18 @@ namespace WTF.GameControls
 
             private bool m_creepsSpawned;
 
-            private void Start()
+            private void OnEnable()
             {
                 m_creepsSpawned = false;
+                EventDispatcher<bool>.Register(CustomEvents.GameStart, SpawnCreeps);
             }
 
-            public void SpawnCreeps()
+            private void OnDisable()
+            {
+                EventDispatcher<bool>.Unregister(CustomEvents.GameStart, SpawnCreeps);
+            }
+
+            private void SpawnCreeps(bool _)
             {
                 if (m_creepsSpawned)
                 {

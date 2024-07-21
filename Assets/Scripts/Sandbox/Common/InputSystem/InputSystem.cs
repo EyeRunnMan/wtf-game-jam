@@ -12,8 +12,8 @@ namespace WTF.Common.InputSystem
         bool isInterrupted = false;
         bool canProcessMoveInput = false;
         bool isCheckingForDoubleTap = false;
-        public event Action OnSwipeStartEvent;
-        public event Action<Vector2> OnDuringSwipEvent;
+        public event Action<Vector2> OnSwipeStartEvent;
+        public event Action<Vector2> OnDuringSwipeEvent;
         public event Action OnSwipeEventEnded;
         public event Action<Vector2> OnDoubleTapEvent;
 
@@ -35,7 +35,7 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.touches[0].phase == TouchPhase.Began || Input.GetMouseButtonDown(0))
                 {
-                    OnInteractionStart();
+                    OnInteractionStart(Input.touches[0].position);
                 }
                 if (Input.touches[0].phase == TouchPhase.Ended || Input.GetMouseButtonUp(0) || isInterrupted)
                 {
@@ -50,7 +50,7 @@ namespace WTF.Common.InputSystem
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    OnInteractionStart();
+                    OnInteractionStart(Input.mousePosition);
                 }
                 if (Input.GetMouseButtonUp(0) || isInterrupted)
                 {
@@ -131,14 +131,14 @@ namespace WTF.Common.InputSystem
 
         public void OnDuringInteraction(Vector2 screenPosition)
         {
-            OnDuringSwipEvent?.Invoke(screenPosition);
+            OnDuringSwipeEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
         }
 
-        public void OnInteractionStart()
+        public void OnInteractionStart(Vector2 screenPosition)
         {
             isInterrupted = false;
             canProcessMoveInput = true;
-            OnSwipeStartEvent?.Invoke();
+            OnSwipeStartEvent?.Invoke(Camera.main.ScreenToWorldPoint(screenPosition));
         }
 
         public void InterruptInteraction()
