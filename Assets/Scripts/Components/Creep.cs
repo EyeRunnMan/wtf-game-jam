@@ -30,7 +30,6 @@ namespace WTF.Players
 
             m_inputSystem.OnSwipeStartEvent += OnSwipeStart;
             m_inputSystem.OnDuringSwipeEvent += OnDuringSwipe;
-            m_inputSystem.OnSwipeEventEnded += OnSwipeEnd;
             m_inputSystem.OnDoubleTapEvent += OnDoubleTap;
         }
 
@@ -43,13 +42,12 @@ namespace WTF.Players
 
             m_inputSystem.OnSwipeStartEvent -= OnSwipeStart;
             m_inputSystem.OnDuringSwipeEvent -= OnDuringSwipe;
-            m_inputSystem.OnSwipeEventEnded -= OnSwipeEnd;
             m_inputSystem.OnDoubleTapEvent -= OnDoubleTap;
         }
 
         private void OnSwipeStart(Vector2 startPos)
         {
-            if (!IsPointInObject(startPos) || m_isSelected || m_creepCount > 1)
+            if (!IsPointInObject(startPos) || m_isSelected || m_creepCount > 1 || m_type != CreepTypes.Player)
             {
                 return;
             }
@@ -62,7 +60,7 @@ namespace WTF.Players
 
         private void OnDuringSwipe(Vector2 movePos)
         {
-            if (IsPointInObject(movePos) && !m_isSelected && m_creepCount == 1)
+            if (IsPointInObject(movePos) && !m_isSelected && m_creepCount == 1 && m_type == CreepTypes.Player)
             {
                 m_isSelected = true;
                 m_movementController.isSelected = true;
@@ -71,19 +69,7 @@ namespace WTF.Players
                 return;
             }
 
-            // DO Something
-        }
-
-        private void OnSwipeEnd()
-        {
-            if (!m_isSelected)
-            {
-                return;
-            }
-
             // Do Something
-//             m_isSelected = false;
-//             m_movementController.isSelected = false;
         }
 
         private void OnDoubleTap(Vector2[] tapPos)
@@ -219,6 +205,14 @@ namespace WTF.Players
             // Swap sprite and play merge anim
             m_isSelected = false;
             m_movementController.isSelected = false;
+        }
+
+        public void BOT_SelectCreep()
+        {
+            m_isSelected = true;
+            m_movementController.isSelected = true;
+            // Play Highlight Anim
+            EventDispatcher<Creep>.Dispatch(CustomEvents.CreepSelected, this);
         }
     }
 }

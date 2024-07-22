@@ -1,5 +1,6 @@
 using UnityEngine;
 using NavMeshPlus.Components;
+using WTF.Bot;
 using WTF.Events;
 
 namespace WTF.GameControls
@@ -31,7 +32,6 @@ namespace WTF.GameControls
         private void ConfigureSpawners()
         {
             LevelStartCreepSpawner[] levelSpawners = GetComponentsInChildren<LevelStartCreepSpawner>(true);
-
             for (int i = 0; i < levelSpawners.Length; ++i)
             {
                 levelSpawners[i].spawnParent = m_creepParentObject;
@@ -40,12 +40,15 @@ namespace WTF.GameControls
             }
 
             RandomCreepSpawner[] randomSpawners = GetComponentsInChildren<RandomCreepSpawner>(true);
-
             for (int i = 0; i < randomSpawners.Length; ++i)
             {
                 randomSpawners[i].spawnParent = m_creepParentObject;
                 randomSpawners[i].startSpawning = true;
             }
+
+            Grimm bot = GetComponentInChildren<Grimm>(true);
+            bot.spawnParent = m_creepParentObject;
+            bot.StartPlaying();
         }
 
         private void StartGame()

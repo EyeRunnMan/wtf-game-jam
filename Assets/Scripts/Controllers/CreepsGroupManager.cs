@@ -39,6 +39,11 @@ namespace WTF.PlayerControls
 
         private void OnCreepSelected(Creep selectedCreep)
         {
+            if (selectedCreep.creepType == CreepTypes.Enemy)
+            {
+                return;
+            }
+
             if (m_creepsSelected.Count == 0)
             {
                 m_selectionType = selectedCreep.creepType;
