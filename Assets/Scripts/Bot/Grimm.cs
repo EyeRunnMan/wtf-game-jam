@@ -90,6 +90,13 @@ namespace WTF.Bot
                 float nextWaitTime = Random.Range(BotConfig.WaitBeforeExplosion.x, BotConfig.WaitBeforeExplosion.y);
 
                 Creep nextCreep = m_groupedCreeps[Random.Range(0, m_groupedCreeps.Count)];
+
+                if (nextCreep == null || !nextCreep.gameObject.activeInHierarchy)
+                {
+                    yield return new WaitForSeconds(nextWaitTime);
+                    continue;
+                }
+
                 nextCreep.InitiateExplosion(CreepTypes.Enemy);
 
                 m_groupedCreeps.Remove(nextCreep);
