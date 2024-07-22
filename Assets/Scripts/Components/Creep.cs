@@ -19,8 +19,9 @@ namespace WTF.Players
         [SerializeField] private CreepSpriteHandler m_spriteHandler;
         [SerializeField] private CreepExplosion m_explosionHandler;
         [SerializeField] private Transform m_mergedCreepsParent;
+        [SerializeField] private GameObject m_selectHighlight;
 
-        public bool m_isSelected;
+        private bool m_isSelected;
         private int m_creepCount = 1;
         private InputSystem m_inputSystem;
 
@@ -54,7 +55,7 @@ namespace WTF.Players
 
             m_isSelected = true;
             m_movementController.isSelected = true;
-            // Play Highlight Anim
+            m_selectHighlight.SetActive(true);
             EventDispatcher<Creep>.Dispatch(CustomEvents.CreepSelected, this);
         }
 
@@ -64,7 +65,7 @@ namespace WTF.Players
             {
                 m_isSelected = true;
                 m_movementController.isSelected = true;
-                // Play Highlight Anim
+                m_selectHighlight.SetActive(true);
                 EventDispatcher<Creep>.Dispatch(CustomEvents.CreepSelected, this);
                 return;
             }
@@ -185,7 +186,7 @@ namespace WTF.Players
         {
             m_isSelected = false;
             m_movementController.isSelected = false;
-            // Play Highlight anim in reverse
+            m_selectHighlight.SetActive(false);
             EventDispatcher<Creep>.Dispatch(CustomEvents.CreepUnselected, this);
         }
 
@@ -196,6 +197,7 @@ namespace WTF.Players
             gameObject.SetActive(false);
             m_isSelected = false;
             m_movementController.isSelected = false;
+            m_selectHighlight.SetActive(false);
         }
 
         public void DoMerge(int creepCount)
@@ -205,13 +207,14 @@ namespace WTF.Players
             // Swap sprite and play merge anim
             m_isSelected = false;
             m_movementController.isSelected = false;
+            m_selectHighlight.SetActive(false);
         }
 
         public void BOT_SelectCreep()
         {
             m_isSelected = true;
             m_movementController.isSelected = true;
-            // Play Highlight Anim
+            m_selectHighlight.SetActive(true);
             EventDispatcher<Creep>.Dispatch(CustomEvents.CreepSelected, this);
         }
     }
