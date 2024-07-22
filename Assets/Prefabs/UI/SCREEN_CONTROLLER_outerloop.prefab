@@ -620,6 +620,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8404020904137686102, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4552603857061694080}
+    - targetCorrespondingSourceObject: {fileID: 8404020904137686102, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3489066681928301702}
     - targetCorrespondingSourceObject: {fileID: 5438606927728654696, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6021110735421626676}
@@ -629,6 +632,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5438606927728654696, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6415560332354585933}
+    - targetCorrespondingSourceObject: {fileID: 5438606927728654696, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2164104830303449317}
   m_SourcePrefab: {fileID: 100100000, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
 --- !u!4 &5834539008756016040 stripped
 Transform:
@@ -734,6 +740,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8112969273530204758}
+        m_TargetAssemblyTypeName: ScreenController, Assembly-CSharp
+        m_MethodName: ChangeScreen
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2164104830303449317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373986601783364606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fcfbb1e5227d6449def05414aebec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnEnable: 1
+  audioID: {fileID: 11400000, guid: f5789d6a0848bae4982c398562c872b7, type: 2}
 --- !u!1 &7470406736592916160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8404020904137686102, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
@@ -833,6 +865,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8112969273530204758}
+        m_TargetAssemblyTypeName: ScreenController, Assembly-CSharp
+        m_MethodName: ChangeScreen
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3489066681928301702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7470406736592916160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fcfbb1e5227d6449def05414aebec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnEnable: 1
+  audioID: {fileID: 11400000, guid: 9ae33644cb7e3ae4cba03aa5813363dd, type: 2}
 --- !u!114 &8112969273530204758 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7177099212993491136, guid: 9fcbf5cdcfb30934b98b1b611c1d4410, type: 3}
