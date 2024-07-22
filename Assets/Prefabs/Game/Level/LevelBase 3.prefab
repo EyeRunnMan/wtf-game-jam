@@ -937,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.y
@@ -1443,11 +1443,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.x
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.y
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1591,11 +1591,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.x
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.y
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1739,7 +1739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.y
@@ -1817,11 +1817,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.x
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5076856128858128567, guid: f644c19f7cca843dab84f3864c52777c, type: 3}
       propertyPath: m_waitTime.y
-      value: 5
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
