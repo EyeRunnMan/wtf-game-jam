@@ -86,8 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cae5d91609c4998ae5033225fe4d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_goodCreep: {fileID: 38830940167405065}
-  m_badCreep: {fileID: 5748057441084351334, guid: 7e29d7d2e12214e85bf9cd7747317a14, type: 3}
   m_goodCharSprites:
   - {fileID: 21300000, guid: 30050da514342488b9e9b97bd9d98ca0, type: 3}
   - {fileID: 21300000, guid: 0e23a809febdb41698d8aaa70bc9d1d9, type: 3}
@@ -125,6 +123,7 @@ MonoBehaviour:
   m_spriteHandler: {fileID: 1169275819116082232}
   m_explosionHandler: {fileID: 7930433583707140435}
   m_mergedCreepsParent: {fileID: 8619285622397984516}
+  m_isSelected: 0
 --- !u!1 &4143006756172987211
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +465,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 19c9822e79fb74199bae84bfa20a0b92, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8666667, g: 0.6431373, b: 0.10980392, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
