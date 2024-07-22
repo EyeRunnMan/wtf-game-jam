@@ -12,6 +12,9 @@ namespace WTF.Players
 {
     public class Creep : MonoBehaviour
     {
+
+        public AudioComp onExplodeAudio;
+        public AudioComp onMergeAudio;
         [SerializeField] private CreepTypes m_type;
         [SerializeField] private SpriteRenderer m_spriteRenderer;
         [SerializeField] private CreepMovementController m_movementController;
@@ -134,7 +137,8 @@ namespace WTF.Players
                 Creep newCreep = m_spriteHandler.UpdateCharacterAndSprite(type, m_creepCount - 1);
                 newCreep.explosionHandler.TriggerExplosion(m_creepCount, type);
 
-                SCreepConvertedInfo eventData = new SCreepConvertedInfo() {
+                SCreepConvertedInfo eventData = new SCreepConvertedInfo()
+                {
                     creepCount = 1,
                     oldCreepType = m_type,
                     newCreepType = type
@@ -153,7 +157,7 @@ namespace WTF.Players
                 return;
             }
 
-            while(m_mergedCreepsParent.childCount > 0)
+            while (m_mergedCreepsParent.childCount > 0)
             {
                 Transform child = m_mergedCreepsParent.GetChild(0);
                 Creep childCreep = child.GetComponent<Creep>();
@@ -163,7 +167,8 @@ namespace WTF.Players
                 childCreep.ExplodeMove();
             }
 
-            SCreepsExplodeInfo eventData = new SCreepsExplodeInfo() {
+            SCreepsExplodeInfo eventData = new SCreepsExplodeInfo()
+            {
                 creepCount = m_creepCount,
                 creepType = m_type
             };
@@ -180,6 +185,7 @@ namespace WTF.Players
             // Play Explode anim
             m_movementController.RandomNavigate();
             m_movementController.isExploding = false;
+            onExplodeAudio.PlayAudio();
         }
 
         public void DeselectCreep(bool skipAnimation = false)
@@ -208,6 +214,7 @@ namespace WTF.Players
             m_isSelected = false;
             m_movementController.isSelected = false;
             m_selectHighlight.SetActive(false);
+            onMergeAudio.PlayAudio();
         }
 
         public void BOT_SelectCreep()

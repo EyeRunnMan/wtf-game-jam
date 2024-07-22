@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6937348633444694412}
   - component: {fileID: 1169275819116082232}
   - component: {fileID: 1073156494752816855}
+  - component: {fileID: 7852899545458236444}
+  - component: {fileID: 3992071094604212974}
   m_Layer: 0
   m_Name: GoodCreep
   m_TagString: creep
@@ -111,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9bd4595af124bfaa06ad3f59444398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onExplodeAudio: {fileID: 7852899545458236444}
+  onMergeAudio: {fileID: 3992071094604212974}
   m_type: 0
   m_spriteRenderer: {fileID: 1544869224814324249}
   m_movementController: {fileID: 6937348633444694412}
@@ -124,6 +128,34 @@ MonoBehaviour:
   m_explosionHandler: {fileID: 7930433583707140435}
   m_mergedCreepsParent: {fileID: 8619285622397984516}
   m_selectHighlight: {fileID: 889399876645479602}
+--- !u!114 &7852899545458236444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38830940167405065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fcfbb1e5227d6449def05414aebec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnEnable: 0
+  audioID: {fileID: 11400000, guid: 7160934b2b252974fbde535ea0e64717, type: 2}
+--- !u!114 &3992071094604212974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38830940167405065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fcfbb1e5227d6449def05414aebec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnEnable: 0
+  audioID: {fileID: 11400000, guid: 0de0bd57c30ba3d45a3a136122c8cb63, type: 2}
 --- !u!1 &889399876645479602
 GameObject:
   m_ObjectHideFlags: 0
